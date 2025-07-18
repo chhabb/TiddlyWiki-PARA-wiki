@@ -1,0 +1,15 @@
+created: 20250718162646461
+modified: 20250718163215031
+tags: $:/tags/Stylesheet
+title: $:/CustomStyle
+type: text/vnd.tiddlywiki
+
+/* 隐藏站点标题和副标题 */
+
+.tc-reveal .tc-site-title,
+.tc-reveal .tc-site-subtitle {
+  display: none;
+}
+.tc-sidebar-scrollable {
+  padding-top: 20px !important;
+}
