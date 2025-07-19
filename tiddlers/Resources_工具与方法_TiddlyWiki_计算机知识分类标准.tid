@@ -1,0 +1,80 @@
+created: 20250719002122463
+modified: 20250719002708957
+tags: Resources/工具与方法/TiddlyWiki
+title: Resources/工具与方法/TiddlyWiki/计算机知识分类标准
+type: text/vnd.tiddlywiki
+
+为了让你的知识体系具备健壮性，并能适应未来扩展，我建议使用''层次化+领域化''的分类方法，使其既能涵盖计算机硬件、软件、网络、编程等方面，又能灵活地纳入新知识。以下是一个完善的分类结构：
+
+---
+
+!!! ''1. 计算机基础知识''（硬件、接口、概念）
+
+* ''计算机组成原理''：CPU、GPU、内存、存储（SSD/HDD）、主板、总线架构
+* ''接口与传输协议''：USB（A/C）、Thunderbolt、HDMI、DisplayPort、PCIe、SATA、NVMe
+* ''网络通信''：千兆/万兆网卡、Wi-Fi 6/7、以太网、IPv4/IPv6、光纤传输
+* ''显示技术''：分辨率（1080p、4K、5K）、刷新率（60Hz/120Hz）、色域（sRGB、DCI-P3）、HDR
+* ''其他硬件概念''：功耗（TDP）、风冷/水冷、ARM vs x86、单片机
+
+---
+
+!!! ''2. 操作系统与虚拟化''（使用与管理）
+
+* ''Windows''：系统优化、注册表、PowerShell、WSL（Linux 子系统）
+* ''macOS''：Mac 硬件（Mac mini M4、Mac Studio）、macOS 终端、Homebrew
+* ''Linux''：Ubuntu、CentOS、Arch、系统管理（systemd、cron）、Shell 编程
+* ''虚拟化''：VMware、VirtualBox、Docker、Kubernetes、WSL2
+
+---
+
+!!! ''3. 编程与开发''（语言、框架、工具链）
+
+* ''编程语言''：Python、JavaScript、C/C++、Go、Rust
+* ''Web 开发''：HTML/CSS、Node.js、前端框架（Vue/React）、浏览器扩展开发、后端（Koa/Express）
+* ''自动化与脚本''：Bash、Python 自动化、爬虫、AI 任务调度
+* ''数据库''：MySQL、PostgreSQL、SQLite、NoSQL（MongoDB）
+* ''API 设计与数据交互''：REST、GraphQL、WebSocket、gRPC、curl、Postman、httpie、wget
+* ''开发工具''：Git、Github、Vim、VSCode、JetBrains 系列
+
+---
+
+!!! ''4. 服务器与运维''（管理、优化、部署）
+
+* ''服务器管理''：宝塔面板、Nginx/Apache、SSH、系统监控（Prometheus、Grafana）
+* ''云计算与存储''：阿里云、AWS、Docker Swarm、Kubernetes、CDN、对象存储（S3）
+* ''文件存储与管理''：AList 云盘管理、RaiDrive 挂载网盘、NAS（群晖、Unraid）
+* ''自动化运维''：Ansible、Terraform、Jenkins、CI/CD
+
+---
+
+!!! ''5. 计算机网络''（通信、协议、安全）
+
+* ''网络基础''：TCP/IP、DNS、NAT、VPN、HTTP/HTTPS、QUIC
+* ''网络硬件''：路由器、交换机、防火墙、光猫、Mesh Wi-Fi
+* ''网络安全''：端口扫描、DDOS、WAF、漏洞分析（SQL 注入、XSS、CSRF）
+
+---
+
+!!! ''6. 智能化系统与 AI 应用''（智能体、AI 相关）
+
+* ''LLM（大语言模型）''：AnythingLLM、ChatGPT、Claude、Gemini
+* ''智能体''：LangChain、AutoGPT、自定义 AI 代理
+* ''OCR 及图像识别''：Tesseract OCR、PaddleOCR、Stable Diffusion
+
+---
+
+!!! ''7. 个人效率与工具''（笔记、文件管理）
+
+* ''知识管理''：TiddlyWiki、Obsidian、Notion、Roam Research
+* ''文件管理''：可道云、Syncthing、Rclone、Zotero
+* ''生产力工具''：Raycast（macOS）、Alfred、Typora、MarkText
+
+---
+
+!!! ''健壮性分析''
+
+# ''层次清晰''：从硬件、软件、编程到服务器、网络、AI，覆盖计算机领域的核心知识
+# ''适应扩展''：如果未来涉及嵌入式、区块链、游戏开发，可在现有框架下添加细分项
+# ''符合你的兴趣方向''：包含 Mac、云存储、服务器、LLM、知识管理等内容
+
+如果未来有新的学习方向，比如音视频编解码、芯片架构、AI 训练等，都可以在合适的分类下扩展。
