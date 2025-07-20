@@ -1,0 +1,190 @@
+created: 20250719095906147
+modified: 20250719102456110
+tags: [[Resources/输入材料/计算机/编程与开发/Web 开发/Vue3]]
+title: Resources/输入材料/计算机/编程与开发/Web 开发/Vue3/单文件组件 (SFC) 结构详解
+type: text/vnd.tiddlywiki
+
+! Vue 3 单文件组件 (SFC) 结构详解（增强版）
+
+下面我将重新组织语言，补充双 script 块的写法和组件 name 属性的设置方式，全面讲解 Vue 3 单文件组件的结构。
+
+!! 完整结构模板
+
+```vue
+<!-- 声明组件名称的 script 块 -->
+<script>
+export default {
+  name: 'MyComponent'  // 显式声明组件名
+}
+</script>
+
+<!-- 主逻辑的 script 块 -->
+<script setup>
+// 组件的主要逻辑
+</script>
+
+<template>
+  <!-- 组件模板 -->
+</template>
+
+<style scoped>
+/* 组件样式 */
+</style>
+```
+
+!! 1. 双 script 块的特殊用法
+
+Vue 3 确实支持在单个 `.vue` 文件中使用多个 `<script>` 块，常见用途包括：
+
+''典型场景：''
+
+* 一个普通 `<script>` 块用于声明组件选项（如 name）
+* 一个 `<script setup>` 块用于编写组件主逻辑
+
+```vue
+<script>
+// 这个块用于配置无法在 <script setup> 中设置的选项
+export default {
+  name: 'MyComponent',
+  inheritAttrs: false,
+  customOptions: {}
+}
+</script>
+
+<script setup>
+// 这里是组件的主要逻辑
+import { ref } from 'vue'
+
+const count = ref(0)
+</script>
+```
+
+!! 2. 组件 name 属性的几种设置方式
+
+!!! 方式1：单独 script 块声明（推荐）
+
+```vue
+<script>
+export default {
+  name: 'MyComponent'  // 明确声明组件名
+}
+</script>
+
+<script setup>
+// 主逻辑...
+</script>
+```
+
+!!! 方式2：使用 defineOptions (Vue 3.3+)
+
+```vue
+<script setup>
+defineOptions({
+  name: 'MyComponent'
+})
+</script>
+```
+
+!!! 方式3：文件名即组件名（不推荐）
+
+如果未显式声明 name，有些工具会使用文件名作为组件名，但这不够可靠。
+
+!! 3. 完整组件示例
+
+```vue
+<!-- 声明组件名和额外配置 -->
+<script>
+export default {
+  name: 'TodoItem',
+  inheritAttrs: false
+}
+</script>
+
+<!-- 主逻辑 -->
+<script setup>
+import { ref } from 'vue'
+
+const props = defineProps({
+  todo: {
+    type: Object,
+    required: true
+  }
+})
+
+const isCompleted = ref(false)
+
+function toggleComplete() {
+  isCompleted.value = !isCompleted.value
+}
+</script>
+
+<template>
+  <li 
+    class="todo-item" 
+    :class="{ completed: isCompleted }"
+    @click="toggleComplete"
+  >
+    {{ todo.text }}
+  </li>
+</template>
+
+<style scoped>
+.todo-item {
+  cursor: pointer;
+  padding: 8px;
+}
+
+.todo-item.completed {
+  text-decoration: line-through;
+  color: #888;
+}
+</style>
+```
+
+!! 4. 各部分详细说明
+
+!!! `<template>` 部分
+
+* 必须包含组件的 HTML 结构
+* Vue 3 可以有多个根节点（Fragment 支持）
+* 支持所有 Vue 指令和模板语法
+
+!!! `<script>` 部分
+
+* 普通 `<script>`：用于声明组件选项
+* `<script setup>`：使用 Composition API 的主逻辑
+* 可以同时存在
+
+!!! `<style>` 部分
+
+* 支持 `scoped` 属性实现样式隔离
+* 可以添加 `module` 实现 CSS Modules
+* 支持预处理器：`<style lang="scss">`
+
+!! 5. 最佳实践建议
+
+''组件命名''：
+
+* 始终显式声明 name 属性
+* 使用 PascalCase 命名（如 `MyComponent`）
+
+''代码组织''：
+
+* 简单组件可以只用 `<script setup>`
+* 复杂组件使用双 script 块分离配置和逻辑
+
+''顺序约定''：
+
+```vue
+<script>/* 配置 */</script>
+<script setup>/* 逻辑 */</script>
+<template>/* 视图 */</template>
+<style>/* 样式 */</style>
+```
+
+''工具支持''：
+
+* Volar 扩展提供完善的 SFC 支持
+* ESLint 插件可帮助保持代码风格一致
+
+这种结构既保持了 Vue 单文件组件的简洁性，又提供了足够的灵活性来应对各种开发场景。
