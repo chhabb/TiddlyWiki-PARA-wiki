@@ -1,0 +1,118 @@
+created: 20250720124617275
+modified: 20250720124708818
+tags: [[Resources/输入材料/计算机/编程与开发/Web 开发/前端框架/VueRouter]] DeepSeek
+title: Resources/输入材料/计算机/编程与开发/Web 开发/前端框架/VueRouter/Vue Router 的 v-slot 与 Vue 普通 slot 的区别
+type: text/vnd.tiddlywiki
+
+! Vue Router 的 `v-slot` 与 Vue 普通 `slot` 的区别
+
+`v-slot` 是 Vue 插槽系统的语法，但在 Vue Router 的 `<router-view>` 中使用时有特殊行为和用途。以下是它们的主要区别：
+
+!! 1. 使用场景不同
+
+|                | Vue 普通 slot                          | Vue Router 的 v-slot                     |
+|----------------|---------------------------------------|-----------------------------------------|
+| ''使用组件''    | 任意自定义组件                        | 仅用于 `<router-view>` 组件              |
+| ''目的''       | 组件内容分发                          | 控制路由组件的渲染方式                  |
+
+!! 2. 作用域内容不同
+
+''普通 slot''：
+
+```vue
+<!-- 父组件 -->
+<MyComponent>
+  <template v-slot:default="slotProps">
+    {{ slotProps.userData }}
+  </template>
+</MyComponent>
+
+<!-- 子组件 MyComponent -->
+<slot :userData="user"></slot>
+```
+
+''Router v-slot''：
+
+```vue
+<router-view v-slot="{ Component, route }">
+  <component :is="Component" />
+</router-view>
+```
+
+* 普通 slot 暴露的是组件内部传递的数据
+* Router v-slot 固定暴露路由相关信息（Component, route, props）
+
+!! 3. 默认行为差异
+
+|                | Vue 普通 slot                          | Vue Router 的 v-slot                     |
+|----------------|---------------------------------------|-----------------------------------------|
+| ''默认渲染''    | 如果不使用 v-slot，内容会默认渲染      | 如果使用 v-slot，必须手动渲染 Component  |
+| ''必要性''      | 可选功能                              | 不使用时会自动渲染，使用后必须接管渲染   |
+
+!! 4. 功能定位不同
+
+''普通 slot''：
+
+* 用于组件的内容分发
+* 实现组件结构的灵活性
+* 父组件向子组件插入内容
+
+''Router v-slot''：
+
+* 控制路由组件的渲染过程
+* 添加过渡动画、缓存控制等
+* 解决路由组件不刷新的问题
+* 实现动态布局系统
+
+!! 5. 实际代码对比
+
+!!! 普通 slot 示例：
+
+```vue
+<!-- 父组件 -->
+<template>
+  <UserCard>
+    <template v-slot:header="{ user }">
+      <h2>{{ user.name }}</h2>
+    </template>
+    
+    <template v-slot:default>
+      <p>默认内容</p>
+    </template>
+  </UserCard>
+</template>
+
+<!-- 子组件 UserCard -->
+<template>
+  <div class="card">
+    <slot name="header" :user="userData"></slot>
+    <slot>默认内容</slot>
+  </div>
+</template>
+```
+
+!!! Router v-slot 示例：
+
+```vue
+<template>
+  <router-view v-slot="{ Component, route }">
+    <transition name="fade">
+      <keep-alive>
+        <component 
+          :is="Component" 
+          :key="route.meta.usePathKey ? route.path : undefined"
+        />
+      </keep-alive>
+    </transition>
+  </router-view>
+</template>
+```
+
+!! 关键区别总结
+
+# ''Router v-slot 是接管渲染''，普通 slot 是内容分发
+# ''Router v-slot 的参数固定''（Component/route/props），普通 slot 参数由组件决定
+# ''Router v-slot 必须渲染 Component''，普通 slot 可以不使用
+# ''Router v-slot 主要用于路由控制''，普通 slot 用于组件组合
+
+简单说：普通 slot 让你决定"显示什么内容"，而 Router 的 v-slot 让你决定"如何显示路由组件"。

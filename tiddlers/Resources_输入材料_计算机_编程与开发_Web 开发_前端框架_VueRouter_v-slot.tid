@@ -1,0 +1,102 @@
+created: 20250720124514330
+modified: 20250720124721135
+tags: [[Resources/输入材料/计算机/编程与开发/Web 开发/前端框架/VueRouter]] DeepSeek
+title: Resources/输入材料/计算机/编程与开发/Web 开发/前端框架/VueRouter/v-slot
+type: text/vnd.tiddlywiki
+
+! Vue Router 的 `v-slot` 详解
+
+在 Vue Router 中，`v-slot` 是用于 `<router-view>` 组件的作用域插槽语法（Vue 2.6.0+ 和 Vue 3 支持），它允许你以更灵活的方式处理路由组件的渲染。
+
+!! 基本用法
+
+```vue
+<router-view v-slot="{ Component, route }">
+  <component :is="Component" :key="route.path" />
+</router-view>
+```
+
+!! 解构参数
+
+`v-slot` 提供了以下可解构的属性：
+
+# ''`Component`'' - 当前路由匹配到的组件
+# ''`route`'' - 当前路由对象（包含 path、params、query 等）
+# ''`props`'' - 传递给路由组件的 props
+
+!! 常见使用场景
+
+!!! 1. 添加过渡动画
+
+```vue
+<router-view v-slot="{ Component }">
+  <transition name="fade" mode="out-in">
+    <component :is="Component" />
+  </transition>
+</router-view>
+```
+
+!!! 2. 强制组件重新渲染（解决不刷新的问题）
+
+```vue
+<router-view v-slot="{ Component, route }">
+  <component :is="Component" :key="route.fullPath" />
+</router-view>
+```
+
+!!! 3. 传递额外 props
+
+```vue
+<router-view v-slot="{ Component, route }">
+  <component 
+    :is="Component" 
+    :extra-data="someData"
+    :key="route.path" 
+  />
+</router-view>
+```
+
+!!! 4. 处理路由元信息
+
+```vue
+<router-view v-slot="{ Component, route }">
+  <transition :name="route.meta.transition || 'fade'">
+    <keep-alive :include="cachedViews">
+      <component :is="Component" :key="route.fullPath" />
+    </keep-alive>
+  </transition>
+</router-view>
+```
+
+!!! 5. 嵌套路由的高级控制
+
+```vue
+<router-view v-slot="{ Component, route }">
+  <template v-if="route.meta.layout">
+    <component :is="route.meta.layout">
+      <component :is="Component" />
+    </component>
+  </template>
+  <component v-else :is="Component" />
+</router-view>
+```
+
+!! 与 `<keep-alive>` 结合使用
+
+```vue
+<router-view v-slot="{ Component }">
+  <keep-alive>
+    <component :is="Component" v-if="$route.meta.keepAlive" />
+  </keep-alive>
+  <component :is="Component" v-if="!$route.meta.keepAlive" />
+</router-view>
+```
+
+!! 注意事项
+
+# 在 Vue 2 中需要使用 `slot-scope`（已废弃）或 `v-slot`
+# Vue 3 中只能使用 `v-slot`
+# 当使用 `v-slot` 时，`<router-view>` 默认不会渲染任何内容，你需要手动渲染 `Component`
+# 这种方式比普通用法更灵活，但也更复杂，只在需要特殊控制时使用
+
+这种模式在需要高度自定义路由渲染行为时非常有用，特别是当你需要控制过渡、缓存或布局系统时。
