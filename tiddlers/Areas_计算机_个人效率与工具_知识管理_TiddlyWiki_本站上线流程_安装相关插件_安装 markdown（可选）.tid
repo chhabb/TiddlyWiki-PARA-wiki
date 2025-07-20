@@ -1,0 +1,23 @@
+created: 20250720174422760
+modified: 20250720174537287
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/安装 markdown（可选）
+type: text/vnd.tiddlywiki
+
+!! 安装 markdown（可选）
+
+1、打开 控制面板=》CPL=》加载数据库；
+
+2、搜索 zh-Hans，搜索 markdown，找到 `$:/plugins/tiddlywiki/markdown`，点击安装
+
+使用方法：
+
+1、创建 Tiddler
+
+2、设置 type 为 text/markdown，内容就可以使用标准 Markdown 语法书写。
+
+注意事项：
+
+1、不建议将 Markdown 作为主要内容类型长期使用，仅建议在''纯文本书写、文档输出、阅读友好展示''等情境中使用 Markdown。
+
+2、因为，TiddlyWiki 的核心语法是 WikiText，其解析器支持宏、小部件、状态控制、条件渲染、transclude 等高级功能。Markdown 类型 tiddler 不支持这些能力，无法参与页面逻辑构建。

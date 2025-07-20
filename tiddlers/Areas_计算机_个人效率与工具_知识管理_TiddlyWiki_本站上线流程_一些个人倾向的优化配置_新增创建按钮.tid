@@ -1,0 +1,50 @@
+created: 20250720180309304
+modified: 20250720180349093
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置/新增创建按钮
+type: text/vnd.tiddlywiki
+
+!! 新增创建按钮
+
+这个按钮可以实现：创建一个以当前 Tiddler 为父标签、以 `当前标题/子条目` 命名的新 Tiddler，方便构建层级关系，当层级嵌套较深、上级 Tiddler 标题较长时，可以显著缩短创建新 Tiddler 的时间。
+
+以下是实现步骤：
+
+1、创建按钮条目
+
+标题：`$:/my/buttons/Create-a-new-entry-with-a-label-and-name-that-is-the-title-of-this-entry`
+
+标签：`$:/tags/ViewToolbar`，该标签会让该按钮出现在每个 Tiddler 的工具栏上。
+
+字段：`list-after: $:/core/ui/Buttons/edit`，该字段用来指定按钮显示顺序，让它排在“编辑”按钮后。
+
+内容（按钮定义代码）：
+
+```tiddler
+\define newHereButtonTags()
+[[$(currentTiddler)$]]
+\end
+
+\define newHereButton()
+<$button class=<<tv-config-toolbar-class>> tooltip="创建一个以当前条目为父的子条目，且命名为“父条目/子条目”">
+  <$set name="baseTitle" value=<<currentTiddler>>>
+    <$set name="newTitle" value="""$(currentTiddler)$/子条目""" >
+      <$action-sendmessage
+        $message="tm-new-tiddler"
+        title=<<newTitle>>
+        tags=<<newHereButtonTags>> />
+    </$set>
+  </$set>
+
+  <$list filter="[<tv-config-toolbar-icons>match[yes]]">
+    {{$:/core/images/new-button}}
+  </$list>
+
+  <$list filter="[<tv-config-toolbar-text>match[yes]]">
+    <span class="tc-btn-text">创建子条目</span>
+  </$list>
+</$button>
+\end
+
+<<newHereButton>>
+```

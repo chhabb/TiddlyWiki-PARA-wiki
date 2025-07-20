@@ -1,0 +1,151 @@
+created: 20250720180803576
+modified: 20250720181107405
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/部署到 GitHub Pages
+type: text/vnd.tiddlywiki
+
+!!! 创建 git 仓库
+
+初始化本地 git 仓库并提交目前所有文件：
+
+```
+    git init
+    git add .
+    git commit -m 'init'
+```
+
+创建一个远程仓库，并连接：
+
+```
+    git remote add origin git@github.com:xxx/demo.git
+```
+
+!!! 编写 GitHub Actions 工作流文件
+
+在仓库目录下创建 `.github/workflows/deploy.yml`，内容示例：
+
+```
+    name: Deploy TiddlyWiki to GitHub Pages
+
+    on:
+      push:
+        branches:
+          - main  # 主分支名，根据你实际分支调整
+
+    jobs:
+      build-and-deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout repository
+          uses: actions/checkout@v3
+
+        - name: Setup Node.js
+          uses: actions/setup-node@v3
+          with:
+            node-version: '22'  # 适当版本
+
+        - name: Install TiddlyWiki
+          run: npm install -g tiddlywiki
+
+        - name: Build TiddlyWiki static site
+          run: tiddlywiki --build index
+
+        - name: Deploy to GitHub Pages
+          uses: peaceiris/actions-gh-pages@v4
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: ./output  # 对应tiddlywiki构建输出目录
+            publish_branch: gh-pages
+```
+
+!!! 添加自定义域名
+
+根目录下新建 output 文件夹，该目录是 `tiddlywiki --build` 打包时默认的输出目录，同时也是 deploy.yml 配置的云端要发布的静态文件目录，该目录内容会被推送到云端的 gh-pages 分支。
+
+在 output 下新建 CNAME 文件，内容为自定义域名，比如：
+
+```
+    234.wiki
+```
+
+GitHub Pages 部署时会自动识别你发布分支（即 gh-pages）根目录下的 CNAME 文件，从而将你的页面和自定义域名关联起来。
+
+!!! 域名解析
+
+这一步是为了让你的域名（比如 234.wiki）指向 GitHub Pages 的服务器，从而实现你输入 234.wiki 就能访问你部署的 TiddlyWiki 页面。
+
+首先登录你购买域名的服务商，找到该域名的 ''DNS 设置'' 入口，添加解析记录：
+
+1、配置裸域名 234.wiki
+
+添加 4 条 ''A 记录'' 指向 GitHub Pages 的服务器 IP：
+
+| ''类型'' | ''主机名'' | ''值（IP地址）'' |
+| -------- | ---------- | ---------------- |
+| A        | @          | 185.199.108.153  |
+| A        | @          | 185.199.109.153  |
+| A        | @          | 185.199.110.153  |
+| A        | @          | 185.199.111.153  |
+
+主机名 @ 表示当前这个域名（即 234.wiki 本身）
+
+添加 4 个 IP 是 GitHub 官方推荐，保证全球 CDN 的可达性和冗余
+
+2、配置子域名 www.234.wiki
+
+添加一条 ''CNAME 记录''：
+
+| ''类型'' | ''主机名'' | ''值''        |
+| -------- | ---------- | ------------- |
+| CNAME    | www        | xxx.github.io |
+
+主机名 www 表示配置 www.234.wiki
+
+值为你 GitHub Pages 用户名的 GitHub Pages 域名（格式为 `<username>.github.io`）
+
+保存并等待 DNS 生效。
+
+!!! 在仓库设置中打开写入权限
+
+这一步是为了解决 Github Action 推送代码到你的仓库的权限问题：
+
+1、打开你的 GitHub 仓库页面
+
+2、点击顶部菜单栏的 ''Settings''
+
+3、左侧选择 ''Actions > General''
+
+4、往下拉到 ''Workflow permissions'' 部分：
+
+5、选择 Read and write permissions
+
+保存设置
+
+!!! 推送生成 gh-pahes 分支
+
+先推送一次，等待云端生成 gh-pages 分支：
+
+```
+    git push -u origin main
+```
+
+!!! 配置 GitHub Pages 使用 gh-pages 分支
+
+进入你项目的 GitHub 仓库页面，然后依次执行：
+
+1、点击 ''Settings''
+
+2、左侧选择 ''Pages''
+
+3、在 ''Build and deployment'' 部分，设置：
+
+* ''Source'' 选择：Deploy from a branch
+* ''Branch'' 选择：gh-pages
+* ''Folder'' 保持为：`/(root)`
+
+4、点击 ''Save''
+
+几分钟后，页面下方会出现一个绿色提示框，显示你的网站已发布。且 Custom domain 会自动识别了你在 CNAME 文件中添加的自定义域名，会对该域名的 DNS 解析记录进行检测。成功后即可通过该域名访问站点。
+
+建议勾选  “Enforce HTTPS”，始终强制使用 HTTPS。

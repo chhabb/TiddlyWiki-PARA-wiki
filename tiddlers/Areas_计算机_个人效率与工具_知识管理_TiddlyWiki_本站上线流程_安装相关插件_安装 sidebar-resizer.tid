@@ -1,0 +1,22 @@
+created: 20250720174022141
+modified: 20250720174156450
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/安装 sidebar-resizer
+type: text/vnd.tiddlywiki
+
+!! 安装 sidebar-resizer
+
+`$:/plugins/Gk0Wk/sidebar-resizer` 可以让 TiddlyWiki 的侧边栏''通过拖拽改变宽度，并且在宽度接近右边界时''自动隐藏。当 Tidder 嵌套层级较深，无法渲染出完整标题时，通过拖拽可以调整侧边栏宽度查看完整标题。
+
+1、打开 控制面板=》CPL=》加载数据库；
+
+2、搜索 sidebar resizer，找到 `$:/plugins/Gk0Wk/sidebar-resizer`，点击安装
+
+3、打开插件的 readme，找到''点击设置侧边栏布局''按钮
+
+4、验证插件是否生效
+
+* 鼠标移到左侧边缘，出现可拖动的边框线
+* 拖动边框可以改变侧边栏宽度
+* 拖动到最右边时自动关闭侧边栏
+* 浏览器刷新后侧边栏宽度记忆保持

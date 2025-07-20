@@ -1,0 +1,25 @@
+created: 20250720180641269
+modified: 20250720180701343
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置/隐藏站点标题和副标题
+type: text/vnd.tiddlywiki
+
+!! 隐藏站点标题和副标题
+
+1、新建 Tiddler `$:/CustomStyle`
+
+2、标签：`$:/tags/Stylesheet`
+
+3、添加样式
+
+```
+/* 隐藏站点标题和副标题 */
+
+.tc-reveal .tc-site-title,
+.tc-reveal .tc-site-subtitle {
+  display: none;
+}
+.tc-sidebar-scrollable {
+  padding-top: 20px !important;
+}
+```

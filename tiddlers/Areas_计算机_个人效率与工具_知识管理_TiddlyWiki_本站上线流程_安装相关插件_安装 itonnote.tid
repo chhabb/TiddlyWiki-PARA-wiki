@@ -1,0 +1,23 @@
+created: 20250720173128511
+modified: 20250720173458303
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/安装 itonnote
+type: text/vnd.tiddlywiki
+
+!! 安装 itonnote
+
+`$:/plugins/linonetwo/itonnote` 在原有 vanilla 主题基础上增添额外功能与样式，安装它主要是因为侧边栏''文件目录''这一功能好用
+
+1、打开 控制面板 =》 CPL =》 加载数据库；
+
+2、搜索 itonnote，找到 `$:/plugins/linonetwo/itonnote`，点击安装
+
+3、安装完刷新默认启用
+
+依赖的两个插件，也需要一并安装：
+
+* `$:/plugins/tiddlywiki/browser-sniff`：检测浏览器类型，用于调整样式（适配移动/桌面）
+* `$:/plugins/kookma/toc`：提供目录生成功能，但和主题无直接关系
+
+该插件的文件目录以一个叫 Index 的条目为根节点，始终从这个根开始展示所有子标签、子条目。
+

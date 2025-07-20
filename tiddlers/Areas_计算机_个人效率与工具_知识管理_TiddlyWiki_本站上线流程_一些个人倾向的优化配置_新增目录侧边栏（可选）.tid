@@ -1,0 +1,52 @@
+created: 20250720175936631
+modified: 20250720180048991
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置/新增目录侧边栏（可选）
+type: text/vnd.tiddlywiki
+
+!! 新增“目录”侧边栏（Tidder 较少时可以自己配置，较多时建议安装使用 itonnote 的文件目录）
+
+Mono 主题自身没有配置“目录”的选项，以下是一种实现方式：
+
+1、新建目录组件
+
+标题：`$:/tags/TOC`
+
+标签：`$:/tags/SideBar`
+
+字段：
+
+* `caption: 目录`（侧边栏 Tab 的名字）
+* `list-after: $:/core/ui/SideBar/Open`（让它排在“Open”标签后面）
+
+内容：
+
+```
+<div class="tc-table-of-contents">
+<<toc-selective-expandable '$:/TOC/_root'>>
+</div>
+```
+
+`<<toc-selective-expandable>>` 是调用 TiddlyWiki 内置的宏，用来渲染一个「可折叠的层级目录」，以你定义的起始标签为根。
+
+2、添加目录项
+
+创建一个普通的 Tiddler，然后设置：
+
+标题：`$:/TOC/_root`
+
+标签（tags）：`$:/tags/TOC`（表示它是目录的一级项，只是起标识作用，实际无任何影响）
+
+如果你想让它变成某个子项（比如属于某个一级项），则将其 tags 设置为你要依附的上层 Tiddler 的标题。最终在侧边栏中你将看到一个可折叠的树状结构，完全由标签构成。
+
+只需要使用 `$:/tags/TOC` 标记**一级目录**即可，后续的所有子条目只需正确地 tag 指向其父条目，不需要标记 `$:/tags/TOC`。
+
+3、让目录项排在第一位
+
+目录属于常用功能，添加以下字段可以让它在侧边栏处于第一位：
+
+```
+list-before: $:/core/ui/SideBar/Open
+```
+
+目前第一位是''开启''，该字段会让目录处于开启这一列的前面。

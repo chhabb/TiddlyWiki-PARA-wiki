@@ -1,0 +1,28 @@
+created: 20250720180600865
+modified: 20250720180617555
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置/配置起始页
+type: text/vnd.tiddlywiki
+
+!! 配置起始页
+
+默认创建的项目的起始页配置在一个叫做 `$:/DefaultTiddlers` 的 Tidder 中，而插件 `$:/plugins/linonetwo/itonnote` 的文件目录以一个叫做 Index 的 Tidder 为根目录。这里配置起始页为 Index（也可以按需配置多条目的起始页）：
+
+1、打开或新建一个标题为 `$:/DefaultTiddlers` 的 tiddler（系统中已有，但你可以覆盖它）
+
+2、设置其类型为 `text/vnd.tiddlywiki`
+
+3、在正文中写入你想启动时打开的 tiddler 名称，比如：
+
+```
+Index
+```
+
+或者
+
+```
+GettingStared
+Index
+```
+
+重新加载 TiddlyWiki 后，就会以这些条目作为启动内容。

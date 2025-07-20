@@ -1,0 +1,19 @@
+created: 20250720174353536
+modified: 20250720174408773
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/安装 markdown-transformer
+type: text/vnd.tiddlywiki
+
+!! 安装 markdown-transformer
+
+一个 markdown 语法转换 WikiText 的插件，识别率不是 100%，但应该算是同类插件中比较好用的，能节省大量时间。
+
+安装：
+
+1、打开 CPL =》 搜索 markdown-transformer
+
+2、找到插件 `$:/plugins/linonetwo/markdown-transformer`
+
+3、点击安装
+
+使用：在任意一个写了 markdown 语法条目，添加字段 `type:text/x-markdown`，工具栏中会出现一个转换按钮，点击即可将 Markdown 内容转为 WikiText。

@@ -1,0 +1,25 @@
+created: 20250720180521163
+modified: 20250720180536486
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置/配置文件目录排列在第一位
+type: text/vnd.tiddlywiki
+
+!! 配置文件目录排列在第一位
+
+`$:/plugins/linonetwo/itonnote/Sidebar/FolderMenu` 是 itonnote 插件位于侧边栏的文件目录菜单，需要将它排在第一个位置，因为是常用功能。
+
+目前侧边栏的顺序由系统条目 `$:/tags/SideBar` 的 list 字段控制，这个字段是一个有序条目 ID 列表，决定了侧边栏模块的排列顺序。
+
+list 字段里默认只包含了 `$:/core/ui/SideBar/Open`、`$:/core/ui/SideBar/Recent`、`$:/core/ui/SideBar/Tools`、`$:/core/ui/SideBar/More`，而没有 `$:/plugins/linonetwo/itonnote/Sidebar/FolderMenu` 条目。
+
+所以，把 `$:/plugins/linonetwo/itonnote/Sidebar/FolderMenu` 放到第一位即可：
+
+1、打开`$:/tags/SideBar`条目
+
+2、找到或添加list字段
+
+3、把`$:/plugins/linonetwo/itonnote/Sidebar/FolderMenu`加到list字段最前面
+
+4、保存并刷新页面
+
+这样，侧边栏加载时会按照指定的顺序渲染模块。

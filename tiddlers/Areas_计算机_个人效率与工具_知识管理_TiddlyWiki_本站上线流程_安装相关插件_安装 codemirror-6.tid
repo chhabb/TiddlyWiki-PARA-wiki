@@ -1,0 +1,17 @@
+created: 20250720174217770
+modified: 20250720174250920
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/安装 codemirror-6
+type: text/vnd.tiddlywiki
+
+!! 安装 codemirror-6
+
+一个编辑器，比默认编辑器好用。目前体会到的最大好处是提供双联语法自动补全的功能。
+
+1、打开 CPL =》 搜索 codemirror-6
+
+2、找到插件 `$:/plugins/oeyoews/tiddlywiki-codemirror-6`
+
+3、点击安装
+
+4、重启 TiddlyWiki（或保存刷新）

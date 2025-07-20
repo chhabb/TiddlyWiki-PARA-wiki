@@ -1,0 +1,32 @@
+created: 20250720175736031
+modified: 20250720180156906
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置/隐藏“工具”侧边栏（可选）
+type: text/vnd.tiddlywiki
+
+!! 隐藏“工具”侧边栏（可选，针对 Mono 主题建议配置）
+
+个人使用时，工具栏功能配置好后，之后基本上不再使用这一块，因此放在侧边栏变得多余。
+
+新建一个 tiddler，标题任意，如：
+
+```
+$:/custom/hideToolsTabButton
+```
+
+标签加上：
+
+```
+$:/tags/Stylesheet
+```
+
+注意：该标签是具有“系统行为”的''特殊系统标签''，只要某个 tiddler 带有标签 `$:/tags/Stylesheet`，它的文本内容就会被当作 CSS 自动注入进页面的 `<style>` 中。
+
+内容写入以下 CSS：
+
+```
+/* 隐藏“工具”标签页按钮 */
+.tc-tab-buttons.tc-sidebar-tabs-main button[data-tab-title="$:/core/ui/SideBar/Tools"] {
+  display: none !important;
+}
+```

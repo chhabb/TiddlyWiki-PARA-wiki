@@ -1,0 +1,11 @@
+created: 20250720174710612
+modified: 20250720174746654
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/安装 CPL 插件
+type: text/vnd.tiddlywiki
+
+!! 安装 CPL 插件
+
+进入 https://tw-cpl.netlify.app/#Welcome:Index%20Welcome，将插件拖拽到自己的 TiddlyWiki，点击 import 导入。
+
+CPL 插件（Community Plugin Library，社区插件库）是一个由社区维护的 TiddlyWiki 插件索引系统，提供了可视化浏览、搜索、安装各类社区插件的界面。

@@ -1,0 +1,27 @@
+created: 20250720180416051
+modified: 20250720180445104
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置/新增删除按钮
+type: text/vnd.tiddlywiki
+
+!! 新增删除按钮
+
+`$:/plugins/linonetwo/itonnote` 定制 Tidder 菜单栏按钮的显示逻辑，需要在它的规则基础上添加。
+
+这个插件通过设定以下条目来控制按钮是否显示：
+
+```
+$:/config/ViewToolbarButtons/Visibility/按钮路径
+```
+
+要让“删除”按钮显示，按照它的格式，创建这个条目即可：
+
+标题：`$:/config/ViewToolbarButtons/Visibility/$:/core/ui/Buttons/delete`
+
+文本内容：
+
+```
+yes
+```
+
+含义是：让 “删除” 按钮在视图工具栏中显示。

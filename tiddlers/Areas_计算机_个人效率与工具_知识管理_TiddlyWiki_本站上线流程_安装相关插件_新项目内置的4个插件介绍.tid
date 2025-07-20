@@ -1,0 +1,59 @@
+created: 20250720171734989
+modified: 20250720172250264
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件 ChatGPT
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/新项目内置的4个插件介绍
+type: text/vnd.tiddlywiki
+
+!! Core: TiddlyWiki5 core
+
+''路径：'' `$:/core`
+
+''版本：'' `STABLE 5.3.7`
+
+这是 TiddlyWiki 的核心代码所在插件，包含整个系统的基础运行逻辑。包括编辑器、渲染器、小部件（widgets）、宏处理器、主题系统、控制面板、保存机制等一切功能的底层实现。这个插件''不可卸载，也不可替换''，它是 TiddlyWiki 本体。
+
+!! Filesystem: Synchronize changes from the node.js server to the local filesystem
+
+''路径：'' `$:/plugins/tiddlywiki/filesystem`
+
+''版本：'' `STABLE 5.3.7`
+
+用于 TiddlyWiki 在 Node.js 模式下运行时，将浏览器端的变更自动同步保存到本地文件系统。
+
+主要用途包括：
+
+* 自动将 tiddler 存储为独立 .tid 文件（或 JSON 格式）
+* 保持浏览器编辑与硬盘文件之间的实时一致
+* 支持版本控制系统（如 git）进行追踪
+
+如果你在用 TiddlyWiki 的 ''Node.js Server 模式（不是单一 HTML 文件）''，这个插件是必须启用的。
+
+!! Highlight: Highlight.js syntax highlighting
+
+''路径：'' `$:/plugins/tiddlywiki/highlight`
+
+''版本：'' `STABLE 5.3.7`
+
+提供基于 highlight.js 的语法高亮功能，用于 code 块（&#96;&#96;&#96;）或 `<pre>` 中的代码高亮显示。
+
+支持多种语言（如 JavaScript、Python、HTML 等），可以让代码在阅读时更清晰。
+
+如果你写技术类笔记、代码片段，这个插件非常有用。
+
+注意：如果你使用了 Markdown 插件，语法高亮也会依赖这个插件。
+
+!! TiddlyWeb: Sync changes from the browser to TW5 (node.js) or TiddlyWeb server
+
+''路径：'' `$:/plugins/tiddlywiki/tiddlyweb`
+
+''版本：'' `STABLE 5.3.7`
+
+这是服务端同步插件，配合 ''TiddlyWeb 或 TiddlyWiki Node.js 服务器''使用，用于在浏览器端进行编辑后自动将改动推送到服务器保存。
+
+它包括：
+
+* 保存机制（将变更发送到服务器）
+* 服务器身份验证（如 Basic Auth）
+* 与 `$:/plugins/tiddlywiki/filesystem` 联动，用于实现完整的前后端同步闭环
+
+如果你只使用 .html 单文件离线模式，这个插件不生效；但在服务端部署中，它是同步的关键组成部分。

@@ -1,0 +1,23 @@
+created: 20250720174309028
+modified: 20250720174332073
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/安装 inverse-link-and-folder
+type: text/vnd.tiddlywiki
+
+!! 安装 inverse-link-and-folder
+
+两个功能：
+
+1、显示反向链接：即显示哪些条目引用了当前条目
+
+2、显示当前文件夹中的条目：基于标签的文件夹系统，显示哪些条目以当前条目为标签
+
+安装 `0.1.0` 版本的，较为直观。
+
+1、打开 CPL =》 搜索 inverse-link-and-folder
+
+2、找到插件 `$:/plugins/linonetwo/inverse-link-and-folder`
+
+3、点击安装
+
+4、保存刷新

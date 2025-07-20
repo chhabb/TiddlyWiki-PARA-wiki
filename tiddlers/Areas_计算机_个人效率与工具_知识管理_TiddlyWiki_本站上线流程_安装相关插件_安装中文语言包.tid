@@ -1,0 +1,16 @@
+created: 20250720174609531
+modified: 20250720174652349
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/安装中文语言包
+type: text/vnd.tiddlywiki
+
+!! 使用 CPL 安装 zh-Hans: 简体中文 语言包
+
+1、打开 控制面板=》CPL=》加载数据库；
+
+2、搜索 zh-Hans，安装；
+
+在 TiddlyWiki 中语言包安装后''不会自动启用''，需要''手动设置语言''才能让界面变成中文。
+
+* 搜索  `$:/language` 这个系统条目
+* 编辑内容为 `$:/languages/zh-Hans`，刷新页面

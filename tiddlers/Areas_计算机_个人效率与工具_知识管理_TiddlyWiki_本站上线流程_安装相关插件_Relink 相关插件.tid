@@ -1,0 +1,43 @@
+created: 20250720172859970
+modified: 20250720173122159
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/Relink 相关插件
+type: text/vnd.tiddlywiki
+
+!! Relink 相关插件
+
+!!! 1、Relink（主插件）
+
+`$:/plugins/flibbles/relink`
+
+核心功能插件。当你重命名一个 tiddler，它会自动查找并修改所有引用它的地方（如 `[[旧标题]]`、`{{旧标题}}`、`<<旧标题>>` 等），确保链接不失效。支持文本、字段、宏调用等常见格式。
+
+安装其他 relink 插件，必须要安装这个。再者，双链的 Tidder 名称变化时，也依赖这个插件更新。
+
+!!! 2、Relink Field Names
+
+`$:/plugins/flibbles/relink-fieldnames`
+
+当某个字段名（如 oldTitle: value）的名称本身是一个 tiddler 标题时，如果该标题被重命名，它会更新字段名本身，而不是字段值。比如用于动态数据结构中用标题做 key 的情况。
+
+!!! 3、Relink Markdown
+
+`$:/plugins/flibbles/relink-markdown`
+
+提供对 Markdown 格式的支持，例如 `[链接文字](旧标题)` 这样的 Markdown 链接会被正确更新。适合你在 wiki 中使用 Markdown 插件编辑内容的情况。
+
+!!! 4、Relink Titles
+
+`$:/plugins/flibbles/relink-titles`
+
+如果有一些 tiddler 的标题是从其他 tiddler 派生而来（例如 《旧标题》/笔记、旧标题/附录），这个插件会在重命名原始标题时，自动更新这些''派生标题''。
+
+这个挺常用的，因为我的 tiddlywiki 的所有子条目都是这样的派生标题，比如 `资源/分类标准`。
+
+!!! 5、Relink Variables
+
+`$:/plugins/flibbles/relink-variables`
+
+专门处理那些用 `\define macro`、`\procedure`、`\function`、`\variable` 等形式声明的变量或宏。如果变量名是某个 tiddler 名称，重命名时也会自动更新这些声明或引用。
+
+基本上 5 个全装，虽然有几个暂时用不到，但如果打算长期使用 TiddlyWiki，随着学习的深入，对于某些知识点的理解（比如自定义字段）可以创造出大量高级用法，这几个插件会非常强大。
