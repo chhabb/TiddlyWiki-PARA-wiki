@@ -1,12 +1,12 @@
 created: 20250720180416051
-modified: 20250720180445104
+modified: 20250721030029466
 tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置
 title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置/新增删除按钮
 type: text/vnd.tiddlywiki
 
 !! 新增删除按钮
 
-`$:/plugins/linonetwo/itonnote` 定制 Tidder 菜单栏按钮的显示逻辑，需要在它的规则基础上添加。
+`$:/plugins/linonetwo/itonnote` 定制 Tiddler 菜单栏按钮的显示逻辑，需要在它的规则基础上添加。
 
 这个插件通过设定以下条目来控制按钮是否显示：
 

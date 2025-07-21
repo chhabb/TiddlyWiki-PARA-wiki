@@ -1,10 +1,10 @@
 created: 20250720175936631
-modified: 20250720180048991
+modified: 20250721030015718
 tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置
 title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/一些个人倾向的优化配置/新增目录侧边栏（可选）
 type: text/vnd.tiddlywiki
 
-!! 新增“目录”侧边栏（Tidder 较少时可以自己配置，较多时建议安装使用 itonnote 的文件目录）
+!! 新增“目录”侧边栏（Tiddler 较少时可以自己配置，较多时建议安装使用 itonnote 的文件目录）
 
 Mono 主题自身没有配置“目录”的选项，以下是一种实现方式：
 

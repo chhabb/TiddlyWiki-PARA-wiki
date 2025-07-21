@@ -1,0 +1,13 @@
+created: 20250721024937575
+modified: 20250721025248394
+tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
+title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/安装 page-toc
+type: text/vnd.tiddlywiki
+
+!! 安装 page-toc
+
+page-toc 会解析条目中的标题（如 `!` 一级标题、`!!` 二级标题 等 Markdown 或 WikiText 语法），并在条目顶部或指定位置显示层级化的目录，支持点击跳转到对应章节。
+
+1、打开 控制面板=》CPL=》加载数据库；
+
+2、搜索 page-toc，搜索 markdown，找到 `$:/plugins/Gk0Wk/page-toc`，点击安装

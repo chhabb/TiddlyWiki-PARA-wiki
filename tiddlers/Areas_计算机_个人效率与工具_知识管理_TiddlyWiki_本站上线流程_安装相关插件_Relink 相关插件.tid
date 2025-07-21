@@ -1,5 +1,5 @@
 created: 20250720172859970
-modified: 20250720173122159
+modified: 20250721025927764
 tags: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件
 title: Areas/计算机/个人效率与工具/知识管理/TiddlyWiki/本站上线流程/安装相关插件/Relink 相关插件
 type: text/vnd.tiddlywiki
@@ -12,7 +12,7 @@ type: text/vnd.tiddlywiki
 
 核心功能插件。当你重命名一个 tiddler，它会自动查找并修改所有引用它的地方（如 `[[旧标题]]`、`{{旧标题}}`、`<<旧标题>>` 等），确保链接不失效。支持文本、字段、宏调用等常见格式。
 
-安装其他 relink 插件，必须要安装这个。再者，双链的 Tidder 名称变化时，也依赖这个插件更新。
+安装其他 relink 插件，必须要安装这个。再者，双链的 Tiddler 名称变化时，也依赖这个插件更新。
 
 !!! 2、Relink Field Names
 
