@@ -1,6 +1,6 @@
 created: 20250721090228739
-modified: 20250721090701398
-tags: Resources/输入材料/计算机/服务器与运维/SSH
+modified: 20250721095402842
+tags: Resources/输入材料/计算机/服务器与运维/SSH ChatGPT
 title: Resources/输入材料/计算机/服务器与运维/SSH/Remote-SSH
 type: text/vnd.tiddlywiki
 
@@ -83,49 +83,43 @@ IdentityFile ~/.ssh/id\_rsa
 
 !!! 核心功能详解
 
-文件资源管理
+''文件资源管理''
 
-左边资源管理器就是远程文件系统
-所有编辑操作都写入远程磁盘
-你可以像本地一样创建、重命名、删除文件
+* 左边资源管理器就是远程文件系统
+* 所有编辑操作都写入远程磁盘
+* 你可以像本地一样创建、重命名、删除文件
 
-⸻
+''终端''
 
-💻 终端
-•	VS Code 打开的终端就是远程 shell，等价于你登录服务器的终端
-•	支持 bash、zsh、fish 等
-•	可以运行服务器上的命令、脚本、Python 等
+* VS Code 打开的终端就是远程 shell，等价于你登录服务器的终端
+* 支持 bash、zsh、fish 等
+* 可以运行服务器上的命令、脚本、Python 等
 
-⸻
+''远程调试''
 
-🧪 远程调试
-•	支持 Python、Node.js、Go、C/C++、Java 等调试
-•	.vscode/launch.json 与本地一样使用
-•	所有依赖（如 venv、node\_modules）都安装在远程
+* 支持 Python、Node.js、Go、C/C++、Java 等调试
+* .vscode/launch.json 与本地一样使用
+* 所有依赖（如 venv、node\_modules）都安装在远程
 
-⸻
-
-🌐 端口转发
+''端口转发''
 
 VS Code 会自动检测远程端口：
-•	当你在远程启动了如 npm run dev 或 Jupyter 时
-•	它会提示：是否转发到本地
-•	一旦确认，你可访问：http://localhost:端口，本质是 VS Code 建了 SSH 隧道
+
+* 当你在远程启动了如 npm run dev 或 Jupyter 时
+* 它会提示：是否转发到本地
+* 一旦确认，你可访问：http://localhost:端口，本质是 VS Code 建了 SSH 隧道
 
 也可手动转发：
 
 F1 → Remote-SSH: Forward a Port
 
-⸻
+!!! 进阶配置建议
 
-⚙️ 进阶配置建议
-
-⸻
-
-🔧 设置中配置远程行为
+''设置中配置远程行为''
 
 可在 VS Code 设置文件中加入：
 
+```
 "remote.SSH.useLocalServer": false,
 "remote.SSH.defaultExtensions": \[
 "ms-python.python",
@@ -134,81 +128,86 @@ F1 → Remote-SSH: Forward a Port
 "remote.SSH.remotePlatform": {
 "myserver": "linux"
 }
+```
 
 说明：
-•	useLocalServer: 有时关闭能提升连接稳定性
-•	defaultExtensions: 每次连接自动安装扩展
-•	remotePlatform: 显式指定平台，可避免插件识别出错
 
-⸻
+* useLocalServer: 有时关闭能提升连接稳定性
+* defaultExtensions: 每次连接自动安装扩展
+* remotePlatform: 显式指定平台，可避免插件识别出错
 
-📦 插件管理（本地 vs 远程）
-•	默认插件只在“本地”生效
-•	如果插件支持远程，会提示“安装到远程”
-•	可以在扩展面板中自由切换“安装到本地”或“安装到远程”按钮
+''插件管理（本地 vs 远程）''
 
-⸻
+* 默认插件只在“本地”生效
+* 如果插件支持远程，会提示“安装到远程”
+* 可以在扩展面板中自由切换“安装到本地”或“安装到远程”按钮
 
-🔑 密钥权限注意事项
-•	密钥文件必须是 600 权限：
+''密钥权限注意事项''
 
+密钥文件必须是 600 权限：
+
+```
 chmod 600 ~/.ssh/id\_rsa
+```
 
-    •	如果是 .ppk（PuTTY）格式，需要转换成 OpenSSH 格式才能在 VS Code 中用：
+如果是 .ppk（PuTTY）格式，需要转换成 OpenSSH 格式才能在 VS Code 中用：
 
+```
 puttygen mykey.ppk -O private-openssh -o id\_rsa
+```
 
-⸻
+!!! 常见问题排查
 
-❓ 常见问题排查
+''连接失败''
 
-⸻
+* 检查网络、端口、用户名是否正确
+* 尝试用命令行 ssh user@ip 连接确认
+* 检查服务器是否安装 openssh-server，并确保已运行
+* 查看连接日志：命令面板执行 Remote-SSH: Show Log
 
-🔴 连接失败
-•	检查网络、端口、用户名是否正确
-•	尝试用命令行 ssh user@ip 连接确认
-•	检查服务器是否安装 openssh-server，并确保已运行
-•	查看连接日志：命令面板执行 Remote-SSH: Show Log
+''连接缓慢或卡住''
 
-⸻
+VS Code 设置中加一句：
 
-🐢 连接缓慢或卡住
-•	VS Code 设置中加一句：
-
+```
 "remote.SSH.useLocalServer": false
+```
 
-    •	关闭 Clash/VPN 等可能干扰隧道的代理工具
+关闭 Clash/VPN 等可能干扰隧道的代理工具
 
-⸻
+''Server 组件崩溃或版本错误''
 
-⚠️ Server 组件崩溃或版本错误
-•	远程主机的 .vscode-server 文件夹可能损坏
-•	可手动删除目录后重连：
+远程主机的 .vscode-server 文件夹可能损坏
 
+可手动删除目录后重连：
+
+```
 rm -rf ~/.vscode-server
+```
 
-⸻
+''中文乱码''
 
-🈴 中文乱码
-•	设置远程 shell 语言为 UTF-8：
+设置远程 shell 语言为 UTF-8：
 
+```
 export LANG=en\_US.UTF-8
+```
 
 加到 .bashrc 或 .zshrc 里，并重启连接
 
-⸻
+!!! 附加技巧与实用经验
 
-📚 附加技巧与实用经验
+如果你用的是跳板机（bastion host），SSH config 可加一项：
 
-⸻
-
-    •	如果你用的是跳板机（bastion host），SSH config 可加一项：
-
+```
 ProxyJump user@jump.host
+```
 
-    •	多主机部署时，可以用 Git 管理 ~/.ssh/config，保持配置一致性
-    •	可在 .vscode/settings.json 中配置端口预设别名：
+多主机部署时，可以用 Git 管理 ~/.ssh/config，保持配置一致性
 
+可在 .vscode/settings.json 中配置端口预设别名：
+
+```
 "remote.portsAttributes": {
 "3000": {
 "label": "开发服务",
@@ -219,13 +218,12 @@ ProxyJump user@jump.host
 "onAutoForward": "notify"
 }
 }
+```
+用 Remote - SSH + Docker 插件，可以远程连接容器内开发环境
 
-    •	用 Remote - SSH + Docker 插件，可以远程连接容器内开发环境
-    •	结合 Settings Sync 插件可以同步远程与本地的 VS Code 设置
+结合 Settings Sync 插件可以同步远程与本地的 VS Code 设置
 
-⸻
-
-✅ 总结
+!!! 总结
 
 Remote - SSH 是最稳、最强、最灵活的远程开发插件之一。你可以直接连接，也可以配置 SSH 别名。配置成本极低，功能极强，适合日常远程写代码、跑服务、部署项目、调试 AI 等各类场景。
 
