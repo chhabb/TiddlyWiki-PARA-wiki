@@ -1,0 +1,236 @@
+created: 20250721090228739
+modified: 20250721090701398
+tags: Resources/输入材料/计算机/服务器与运维/SSH
+title: Resources/输入材料/计算机/服务器与运维/SSH/Remote-SSH
+type: text/vnd.tiddlywiki
+
+!! Remote - SSH 插件手册
+
+!!! 插件作用概述
+
+Remote - SSH 是 VS Code 官方开发的远程开发插件。它的作用是：
+
+让你用本地的 VS Code 编辑器，通过 SSH 连接远程服务器，在远程环境中运行代码、调试、打开终端、安装依赖等，几乎等同于把远程主机“本地化”。
+
+!!! 使用条件
+
+* 本地系统（macOS/Linux/Windows）安装了 VS Code 和 SSH 客户端
+* 远程系统是 Linux 或类 Unix 系统，开启了 SSH 服务
+* 你知道远程主机的 IP、用户名，能通过 ssh user@ip 连接上去
+* 本地可以使用密码或密钥登录远程（推荐密钥）
+
+!!! 安装插件
+
+* 打开 VS Code
+* 安装插件 Remote - SSH（插件 ID：ms-vscode-remote.remote-ssh）
+* 安装完成后，左下角会出现绿色「><」标志，表示插件激活成功
+
+!!! 连接远程主机（两种方法）
+
+''方法一：直接连接（不配置 SSH 文件）''
+
+适合临时使用或新手直接开干
+
+* F1 或 Ctrl+Shift+P（mac: Cmd+Shift+P） 打开命令面板
+* 输入：Remote-SSH: Connect to Host...
+* 手动输入完整 SSH 命令：
+
+```
+user@ip
+```
+
+如：
+
+```
+root@192.168.1.10
+```
+
+或自定义端口：
+
+```
+ssh -p 2222 user@ip
+```
+
+系统会自动提示选择密钥或输入密码。连接成功后，VS Code 会：
+
+* 自动在远程主机安装 VS Code Server
+* 打开新的“远程窗口”
+* 左下角绿色标志变为：`SSH: ip地址`
+
+''方法二：配置 ~/.ssh/config 实现快速连接''
+
+适合长期使用多个主机时，节省每次输入
+
+1、在本地打开终端，编辑 SSH 配置文件：
+
+```
+code ~/.ssh/config
+```
+
+2、添加主机配置：
+
+```
+Host myserver
+HostName 192.168.1.10
+User root
+Port 22
+IdentityFile ~/.ssh/id\_rsa
+```
+
+3、保存后，回到 VS Code → F1 → 输入：`Remote-SSH: Connect to Host...`
+
+你会看到 myserver 出现在下拉列表中，一键连接即可。
+
+!!! 核心功能详解
+
+文件资源管理
+
+左边资源管理器就是远程文件系统
+所有编辑操作都写入远程磁盘
+你可以像本地一样创建、重命名、删除文件
+
+⸻
+
+💻 终端
+•	VS Code 打开的终端就是远程 shell，等价于你登录服务器的终端
+•	支持 bash、zsh、fish 等
+•	可以运行服务器上的命令、脚本、Python 等
+
+⸻
+
+🧪 远程调试
+•	支持 Python、Node.js、Go、C/C++、Java 等调试
+•	.vscode/launch.json 与本地一样使用
+•	所有依赖（如 venv、node\_modules）都安装在远程
+
+⸻
+
+🌐 端口转发
+
+VS Code 会自动检测远程端口：
+•	当你在远程启动了如 npm run dev 或 Jupyter 时
+•	它会提示：是否转发到本地
+•	一旦确认，你可访问：http://localhost:端口，本质是 VS Code 建了 SSH 隧道
+
+也可手动转发：
+
+F1 → Remote-SSH: Forward a Port
+
+⸻
+
+⚙️ 进阶配置建议
+
+⸻
+
+🔧 设置中配置远程行为
+
+可在 VS Code 设置文件中加入：
+
+"remote.SSH.useLocalServer": false,
+"remote.SSH.defaultExtensions": \[
+"ms-python.python",
+"esbenp.prettier-vscode"
+],
+"remote.SSH.remotePlatform": {
+"myserver": "linux"
+}
+
+说明：
+•	useLocalServer: 有时关闭能提升连接稳定性
+•	defaultExtensions: 每次连接自动安装扩展
+•	remotePlatform: 显式指定平台，可避免插件识别出错
+
+⸻
+
+📦 插件管理（本地 vs 远程）
+•	默认插件只在“本地”生效
+•	如果插件支持远程，会提示“安装到远程”
+•	可以在扩展面板中自由切换“安装到本地”或“安装到远程”按钮
+
+⸻
+
+🔑 密钥权限注意事项
+•	密钥文件必须是 600 权限：
+
+chmod 600 ~/.ssh/id\_rsa
+
+    •	如果是 .ppk（PuTTY）格式，需要转换成 OpenSSH 格式才能在 VS Code 中用：
+
+puttygen mykey.ppk -O private-openssh -o id\_rsa
+
+⸻
+
+❓ 常见问题排查
+
+⸻
+
+🔴 连接失败
+•	检查网络、端口、用户名是否正确
+•	尝试用命令行 ssh user@ip 连接确认
+•	检查服务器是否安装 openssh-server，并确保已运行
+•	查看连接日志：命令面板执行 Remote-SSH: Show Log
+
+⸻
+
+🐢 连接缓慢或卡住
+•	VS Code 设置中加一句：
+
+"remote.SSH.useLocalServer": false
+
+    •	关闭 Clash/VPN 等可能干扰隧道的代理工具
+
+⸻
+
+⚠️ Server 组件崩溃或版本错误
+•	远程主机的 .vscode-server 文件夹可能损坏
+•	可手动删除目录后重连：
+
+rm -rf ~/.vscode-server
+
+⸻
+
+🈴 中文乱码
+•	设置远程 shell 语言为 UTF-8：
+
+export LANG=en\_US.UTF-8
+
+加到 .bashrc 或 .zshrc 里，并重启连接
+
+⸻
+
+📚 附加技巧与实用经验
+
+⸻
+
+    •	如果你用的是跳板机（bastion host），SSH config 可加一项：
+
+ProxyJump user@jump.host
+
+    •	多主机部署时，可以用 Git 管理 ~/.ssh/config，保持配置一致性
+    •	可在 .vscode/settings.json 中配置端口预设别名：
+
+"remote.portsAttributes": {
+"3000": {
+"label": "开发服务",
+"onAutoForward": "openBrowser"
+},
+"8888": {
+"label": "Jupyter",
+"onAutoForward": "notify"
+}
+}
+
+    •	用 Remote - SSH + Docker 插件，可以远程连接容器内开发环境
+    •	结合 Settings Sync 插件可以同步远程与本地的 VS Code 设置
+
+⸻
+
+✅ 总结
+
+Remote - SSH 是最稳、最强、最灵活的远程开发插件之一。你可以直接连接，也可以配置 SSH 别名。配置成本极低，功能极强，适合日常远程写代码、跑服务、部署项目、调试 AI 等各类场景。
+
+真正的远程开发环境就是：
+
+代码写在 VS Code，本地只是一扇窗，逻辑都在远程服务器中运行。
+
+无需配置太多，能 SSH 就能用。推荐长期使用。
