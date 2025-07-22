@@ -1,0 +1,14 @@
+book-template-ISBN: 9787115579713
+book-template-author: David Rock
+book-template-cover: 1753186325808.jpg
+book-template-date: 2025-07-22
+book-template-rating: 
+book-template-status: 在读
+book-template-title: 效率脑科学
+created: 20250722122216808
+modified: 20250722125515096
+tags: Areas/读书
+title: Areas/读书/效率脑科学
+type: text/vnd.tiddlywiki
+
+<$image source={{!!book-template-cover}} />
