@@ -6,9 +6,9 @@ book-template-rating:
 book-template-status: 在读
 book-template-title: 效率脑科学
 created: 20250722122216808
-modified: 20250722125515096
-tags: Areas/读书
-title: Areas/读书/效率脑科学
+modified: 20250723112315221
+tags: Areas/阅读
+title: Areas/阅读/效率脑科学
 type: text/vnd.tiddlywiki
 
 <$image source={{!!book-template-cover}} />

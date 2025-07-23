@@ -1,17 +1,18 @@
-created: 20250722120526812
-modified: 20250722124137134
+created: 20250723111704049
+list: Areas/阅读/模板 Areas/阅读/主题阅读 Areas/阅读/效率脑科学
+modified: 20250723112606526
 tags: Areas
-title: Areas/读书
+title: Areas/阅读
 type: text/vnd.tiddlywiki
 
 <$button>
 新建书籍
 <$action-createtiddler 
-  $basetitle="Areas/阅读/书/++++"
-  $template="Areas/阅读/书/模板"
+  $basetitle="Areas/阅读/++++"
+  $template="Areas/阅读/模板"
 />
 <$action-sendmessage $message="tm-edit-tiddler"
-  $param="Areas/阅读/书/++++"
+  $param="Areas/阅读/++++"
 />
 </$button>
 

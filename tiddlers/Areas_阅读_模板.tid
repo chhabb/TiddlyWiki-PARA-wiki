@@ -6,9 +6,9 @@ book-template-rating:
 book-template-status: 
 book-template-title: 
 created: 20250715100933143
-modified: 20250722125528482
-tags: Areas/读书
-title: Areas/读书/模板
+modified: 20250723112258208
+tags: Areas/阅读
+title: Areas/阅读/模板
 type: text/vnd.tiddlywiki
 
 <$image source={{!!book-template-cover}} width="200"/>
