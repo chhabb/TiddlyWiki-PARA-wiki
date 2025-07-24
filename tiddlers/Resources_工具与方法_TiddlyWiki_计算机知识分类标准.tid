@@ -1,5 +1,5 @@
 created: 20250719002122463
-modified: 20250722101913795
+modified: 20250724012103106
 tags: Resources/工具与方法/TiddlyWiki ChatGPT
 title: Resources/工具与方法/TiddlyWiki/计算机知识分类标准
 type: text/vnd.tiddlywiki
@@ -29,7 +29,7 @@ type: text/vnd.tiddlywiki
 
 !!! ''3. 编程与开发''（语言、框架、工具链）
 
-* ''编程语言''：Python、JavaScript、C/C++、Go、Rust
+* ''编程语言''：Python、JavaScript、TypeScript、C/C++、Go、Rust
 * ''Web 开发''：HTML/CSS、Node.js、前端框架（Vue/React/VueX&Pinia/VueRouter）、浏览器扩展开发、后端（Koa/Express）
 * ''自动化与脚本''：Bash、Python 自动化、爬虫、AI 任务调度
 * ''数据库''：MySQL、PostgreSQL、SQLite、NoSQL（MongoDB）
