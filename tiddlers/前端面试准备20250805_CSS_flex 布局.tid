@@ -1,0 +1,126 @@
+created: 20250805061630804
+modified: 20250805062645721
+tags: 前端面试准备20250805/CSS
+title: 前端面试准备20250805/CSS/flex 布局
+type: text/vnd.tiddlywiki
+
+!! flex 布局
+
+!!! 1、概念
+
+Flex 是 Flexible Box 的缩写，意为''"弹性布局"''，用来为盒状模型提供最大的灵活性。采用 Flex 布局的元素，称为 Flex 容器（flex container），简称"容器"。它的所有子元素自动成为容器成员，称为 Flex 项目（flex item），简称"项目"。容器默认存在两根轴：主轴和交叉轴（也叫做侧轴）。默认水平方向的为主轴，垂直方向为侧轴。
+
+!!! 2、容器的属性
+
+* `flex-direction` 定义主轴的方向
+* `flex-wrap` 定义是否换行
+* `flex-flow` 是 flex-direction 属性和 flex-wrap 属性的简写形式
+* `justify-content` 定义项目在主轴上的对齐方式
+* `align-items` 定义项目在侧轴上的对齐方式
+* `align-content` 定义换行的项目在侧轴上如何对齐
+
+!!! 3、项目的属性
+
+* `order` 定义项目的排列顺序。数值越小，排列越靠前，默认为 0。
+* `flex-grow` 定义项目的放大比例，默认为 0，即如果存在剩余空间，也不放大。
+* `flex-shrink` 定义了项目的缩小比例，默认为 1，即如果空间不足，该项目将缩小。
+* `flex-basis` 定义了在分配多余空间之前，项目占据的主轴空间。它的默认值为 auto，即项目的本来大小。
+* `flex` 是 flex-grow, flex-shrink 和 flex-basis 的简写，默认值为 0 1 auto。
+* `align-self` 允许单个项目有与其他项目不一样的对齐方式，可覆盖 align-items 属性。
+
+!!! 扩展：如何使用 flex 实现等宽布局
+
+```html
+<div class="container">
+  <div class="item">Item 1</div>
+  <div class="item">Item 2</div>
+  <div class="item">Item 3</div>
+</div>
+```
+
+```css
+.container {
+  display: flex;
+}
+
+.item {
+  flex: 1; /* 关键属性，使所有项目等宽 */
+}
+```
+
+!!! 扩展：flex: 1 代表什么含义？
+
+`flex` 是 `flex-grow`, `flex-shrink` 和 `flex-basis` 三个属性的简写形式。
+
+```css
+flex: flex-grow flex-shrink flex-basis;
+```
+
+1、flex-grow
+
+* 定义项目的放大比例
+* 决定当容器有剩余空间时，项目如何分配剩余空间
+* 默认值：`0` （不放大）
+
+2、flex-shrink
+
+* 定义项目的缩小比例
+* 决定当容器空间不足时，项目如何收缩
+* 默认值：`1` （可以收缩）
+
+3、flex-basis
+
+* 定义项目在分配多余空间之前的主轴尺寸
+* 可以设为长度值（如`20%`, `200px`）或`auto`
+* 默认值：`auto` （基于内容宽度）
+
+4、常见 `flex` 值及其含义
+
+`flex: 0 1 auto` （默认值）
+
+* 不放大（flex-grow:0），可以收缩（flex-shrink:1），基于内容宽度（flex-basis:auto）
+
+`flex: 1` （等同于 `flex: 1 1 0`）
+
+* 可以放大和收缩，基础尺寸为0
+* 常用于等宽布局
+
+`flex: auto` （等同于 `flex: 1 1 auto`）
+
+* 可以放大和收缩，基于内容宽度
+
+`flex: none` （等同于 `flex: 0 0 auto`）
+
+* 不放大也不收缩，基于内容宽度
+
+''为什么 `flex: 1` 能实现等宽布局''
+
+当所有项目都设置为 `flex: 1` 时：
+
+- 它们的 `flex-basis` 都是 `0`
+- 所有项目会平分容器的剩余空间
+- 因此实现了等宽效果
+
+''示例对比''
+
+```css
+/* 默认行为 - 基于内容宽度 */
+.item-default {
+  flex: 0 1 auto; /* 等同于不设置 */
+}
+
+/* 等宽布局 */
+.item-equal {
+  flex: 1; /* 等同于 flex: 1 1 0 */
+}
+
+/* 基于内容但可伸缩 */
+.item-auto {
+  flex: auto; /* 等同于 flex: 1 1 auto */
+}
+
+/* 固定大小，不伸缩 */
+.item-fixed {
+  flex: 0 0 200px;
+}
+```

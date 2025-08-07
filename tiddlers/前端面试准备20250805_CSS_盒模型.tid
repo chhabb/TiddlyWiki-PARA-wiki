@@ -1,0 +1,26 @@
+created: 20250805061049188
+modified: 20250805061200679
+tags: 前端面试准备20250805/CSS
+title: 前端面试准备20250805/CSS/盒模型
+type: text/vnd.tiddlywiki
+
+!! 盒模型
+
+!!! 1、概念
+
+''页面渲染时，DOM 元素所采用的布局模型。''可通过 box-sizing 进行设置。
+
+!!! 2、分类
+
+根据计算宽高的区域可分为：
+
+1、content-box (W3C 标准盒模型)
+
+当给元素设置 width 和 height 时，只会改变 width + height。
+
+2、border-box (IE 盒模型)
+
+当给元素设置 width 和 height 时，会改变 width + height + padding。
+
+3、padding-box (浏览器未实现)
+4、margin-box (浏览器未实现)

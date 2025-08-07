@@ -1,0 +1,26 @@
+created: 20250805052112845
+modified: 20250805052422789
+tags: 前端面试准备20250805/HTML
+title: 前端面试准备20250805/HTML/HTML5 新特性
+type: text/vnd.tiddlywiki
+
+!! HTML5 新特性
+
+* 新的语义化元素：main、footer、header、nav、section
+* 新的表单控件：date、time、email、url、search
+* 新的 API：
+** 音视频：audio 和 video 元素
+** 绘图图形：canvas 元素
+** 本地存储：localStorage，sessionStorage
+** 多线程操作：Web Worker
+
+!!! 扩展：对 HTML5 语义化的理解
+
+''概念''
+
+语义化指的是：''根据页面内容的结构，选择合适的 HTML 标签。''
+
+''优点''
+
+* ''对机器友好''，带有语义的文字表现力丰富，更适合搜索引擎的爬虫爬取有效信息，''有利于 SEO''。除此之外，语义类还支持读屏软件，根据文章可以自动生成目录； 
+* ''对开发者友好''，使用语义类标签增强了''可读性''，结构更加清晰，开发者能清晰的看出网页的结构，便于团队的开发与维护。 

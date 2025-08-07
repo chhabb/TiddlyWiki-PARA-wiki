@@ -1,0 +1,107 @@
+created: 20250805062857723
+modified: 20250805065008409
+tags: 前端面试准备20250805/CSS
+title: 前端面试准备20250805/CSS/元素水平垂直居中
+type: text/vnd.tiddlywiki
+
+!! 元素水平垂直居中
+
+1、利用绝对定位, 子元素未知宽高
+
+```css
+.father {
+  position: relative;
+}
+.son {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+```
+
+2、利用绝对定位, 子元素必须明确宽高
+
+```css
+.father {
+  position: relative;
+}
+.son {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 200px;
+  height: 200px;
+  margin-left: -100px;
+  margin-top: -100px;
+}
+```
+
+3、利用 flex
+
+```css
+.father {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+```
+4、绝对定位 + margin: auto（子元素必须明确宽高）
+
+```css
+.father {
+  position: relative;
+}
+
+.son {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 200px;  /* 必须设置宽高 */
+  height: 200px;
+}
+```
+
+!!! 原理
+
+''一、绝对定位 + transform（适用于子元素未知宽高）''
+
+原理在于先用 left: 50% 和 top: 50% 将子元素的锚点（左上角）移动到父容器的中心位置，此时子元素的左上角正好处于中心点。但这并不是真正的“居中”，因为整个子元素还在中心点的右下方。为了解决这个偏移问题，使用 transform: translate(-50%, -50%)，将元素自身沿 X 和 Y 轴各移动自身宽度和高度的一半，从而精确地将整个子元素中心对齐到父元素中心。
+
+这种方法不依赖子元素的宽高，因为 transform 可以动态根据元素自身的尺寸进行计算，特别适合内容动态变化或尺寸不固定的元素。
+
+''二、绝对定位 + margin 负值（必须知道子元素宽高）''
+
+原理也是先将子元素锚点移动到父容器中心（50%），但由于没有使用 transform，而是通过 margin-left 和 margin-top 的负值将其“拉回”中心，即：让子元素向左和向上偏移其自身宽高的一半，以实现居中。
+
+这种方式的关键在于偏移量是写死的负值，必须依赖明确的宽度和高度才能正确计算偏移。因此，这种方法适用于静态尺寸固定的场景。
+
+''三、Flex 布局（适用于任意宽高）''
+
+原理在于将父容器设置为 Flex 布局，这种布局会将子元素看作可以“分配空间”的对象。通过设置 justify-content: center，子元素会在主轴（水平方向）上居中；设置 align-items: center，则在交叉轴（垂直方向）上居中。
+
+这是一种基于空间分配逻辑的居中方法，不再依赖于定位或者偏移计算。Flex 能够根据子元素实际内容大小进行自动对齐，因此不要求子元素必须有固定尺寸，可变尺寸、响应式布局时非常适合。
+
+''四、绝对定位 + margin: auto（必须知道子元素宽高）''
+
+原理是让子元素处于绝对定位，并设置 top: 0; bottom: 0; left: 0; right: 0，这样子元素会“扩展”到父容器四周，但由于设置了 margin: auto，浏览器会尝试在水平方向和垂直方向自动分配 margin 值，从而使子元素在父容器中水平和垂直居中。
+
+margin 自动分配的前提是浏览器能知道子元素的尺寸，否则 margin 无法平分空余空间，所以子元素必须明确宽高。
+
+''总结四种方式的差异核心在于：''
+
+* 是否依赖明确的宽高（transform 和 flex 不依赖，margin 类方式依赖）
+* 是否用定位（前三种中两种用了 absolute，flex 没有）
+* 是否基于元素偏移，还是容器空间自动分配（transform 和 margin 是偏移，flex 是空间分配）
+
+每种方式都有适用场景，选择时应根据子元素是否固定尺寸、是否需要响应式、是否支持现代布局标准等因素来权衡。
+
+
+''“适用于子元素未知宽高”和“适用于任意宽高”区别''
+
+transform 是“基于元素自身尺寸的偏移”方式，但不需要你手动提供尺寸，它是自动计算完成的。
+
+flex 是“和尺寸无关的自动对齐”方式，无论你知不知道它的尺寸，都可以居中。

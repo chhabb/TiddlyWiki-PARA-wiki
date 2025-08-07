@@ -1,0 +1,13 @@
+created: 20250805062750266
+modified: 20250805062834323
+tags: 前端面试准备20250805/CSS
+title: 前端面试准备20250805/CSS/隐藏页面元素方式
+type: text/vnd.tiddlywiki
+
+!! 隐藏页面元素方式
+
+* `display: none` 不占位。不会响应 DOM 事件。 
+* `opacity: 0` 占位，但不可见。会响应 DOM 事件。 
+* `visibility: hidden` 占位，但不可见。不会响应 DOM 事件。 
+* `position: absolute; left: -10000px` 移动到屏幕外 
+* `z-index: -1` 将别的定位元素遮盖掉当前元素 

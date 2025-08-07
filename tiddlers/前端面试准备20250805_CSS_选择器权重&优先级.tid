@@ -1,0 +1,9 @@
+created: 20250805061356296
+modified: 20250805061407825
+tags: 前端面试准备20250805/CSS
+title: 前端面试准备20250805/CSS/选择器权重&优先级
+type: text/vnd.tiddlywiki
+
+!! 选择器权重&优先级
+
+`!important` > `行内样式` > `#id` > `.class` > `tag` > `*` > `继承` > `默认` 

@@ -1,0 +1,41 @@
+created: 20250805054717143
+modified: 20250805054856846
+tags: 前端面试准备20250805/CSS
+title: 前端面试准备20250805/CSS/CSS3 新特性
+type: text/vnd.tiddlywiki
+
+!! CSS3 新特性
+
+1、新增了选择器
+
+* `:last-child` 匹配父元素的最后一个子元素
+* `:nth-child(n)` 匹配父元素的第 n 个子元素
+
+2、边框特性
+
+* `border-radius` 圆角
+
+3、颜色与不透明度
+
+* `opacity: 0.5;`
+* `color: rgba(0, 0, 0, 0.5)`
+
+4、阴影
+
+* `text-shadow` 文字阴影
+* `box-shadow` 盒子阴影
+
+5、transform 变形
+
+* `transform: rotate(9deg)` 旋转
+* `transform: scale(0.5)` 缩放
+* `transform: translate(100px, 100px)` 位移
+
+6、过渡与动画
+
+* `transition` 过渡
+* `animation` 动画
+
+7、媒体查询
+
+* `@media` 用来做响应式布局

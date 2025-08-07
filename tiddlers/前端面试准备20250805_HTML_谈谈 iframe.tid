@@ -1,0 +1,159 @@
+created: 20250805053141270
+modified: 20250805053422713
+tags: 前端面试准备20250805/HTML
+title: 前端面试准备20250805/HTML/谈谈 iframe
+type: text/vnd.tiddlywiki
+
+!! 谈谈 iframe
+
+!!! 概念
+
+iframe 标签规定了一个内联框架，可以在当前的文档（页面）中嵌入另外一个文档（页面）。
+
+* 同源情况下：父页面可以访问子页面所有内容
+* 不同源情况下：父页面不能访问子页面的内容
+
+!!! 基本使用
+
+```vue
+<iframe src="http://localhost:8000/2.html"></iframe>
+```
+
+!!! 问题
+
+''如何获取`iframe`内部的内容（DOM元素、方法等）''
+
+iframe标签可以理解为异步解析的，所以在当前页面执行 script 标签内容时，此时`iframe`还未渲染成功，也就获取不到其中的 DOM 元素。必须等`iframe.contentWindow.onload`事件触发，`iframe`内部的元素全部加载完成，才能获取 DOM 元素。
+
+同源的情况下，a页面和b页面可以直接去获取对方的内容
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>我是a页面</h2>
+    <iframe id="bframe" src="./b.html" frameborder="0"></iframe>
+    <button>点击获取b页面内容</button>
+
+    <script>
+      window.onload = function () {
+        let btn = document.querySelector("button");
+        btn.onclick = function () {
+          let bframe = document.getElementById("bframe");
+          let title =
+            bframe.contentWindow.document.querySelector("h2").innerHTML;
+          console.log("a中获取到b页面的内容", title);
+        };
+      };
+    </script>
+  </body>
+</html>
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>我是b页面</h2>
+    <button>点击获取a页面内容</button>
+
+    <script>
+      window.onload = function () {
+        let btn = document.querySelector("button");
+        btn.onclick = function () {
+          let title = window.parent.document.querySelector("h2").innerHTML;
+          console.log("b中获取到a页面内容", title);
+        };
+      };
+    </script>
+  </body>
+</html>
+
+```
+
+不同源情况下，父子页面如何通信
+
+* `window.addEventListener("message", function (event) {})` 接受消息
+* `window.postMessage(data, targetOrigin)` 发送消息
+* 父页面给子页面发送数据的时候
+** 需要拿到iframe的标签，然后通过contentWindow.postMessage去发给子页面，第二个参数填写子页面的域名地址
+** 父页面接受数据直接使用window去绑定事件 window.onmessage
+* 子页面给父页面发送数据的时候
+** 需要拿到父页面的window，通过window.parent.postMessage去给父页面发数据，第二个参数填写父父页面的域名地址
+** 子页面接受数据直接使用window去绑定事件 window.onmessage
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>我是a页面</h2>
+    <iframe
+      id="bFrame"
+      src="http://127.0.0.1:5501/b.html"
+      frameborder="0"
+    ></iframe>
+    <button>点击给b页面发送内容</button>
+    <script>
+      window.onload = function () {
+        window.onmessage = function (event) {
+          console.log("接收到b页面发送的内容", event);
+        };
+        document.querySelector("button").onclick = function () {
+          // 给b页面发送内容需要拿到frame标签获取到contentWindow
+          let bFrame = document.getElementById("bFrame");
+          bFrame.contentWindow.postMessage("赵丽颖", "http://127.0.0.1:5501");
+        };
+      };
+    </script>
+  </body>
+</html>
+```
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2>我是b页面</h2>
+    <button>点击给a页面发送内容</button>
+
+    <script>
+      window.onload = function () {
+        window.onmessage = function (event) {
+          console.log("接受到a页面发送的内容", event);
+        };
+
+        document.querySelector("button").onclick = function () {
+          // 给a页面发送数据需要拿到父window
+          window.parent.postMessage("杨幂", "http://127.0.0.1:5500");
+        };
+      };
+    </script>
+  </body>
+</html>
+
+```
+
+''应用''
+
+* A系统接入B系统（前端微应用）
+* 当前页面引入已经写好的页面功能，比如：视频/客服等功能

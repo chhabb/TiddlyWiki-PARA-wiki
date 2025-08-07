@@ -1,0 +1,27 @@
+created: 20250806093313431
+modified: 20250806093606740
+tags: 前端面试准备20250805/JavaScript
+title: 前端面试准备20250805/JavaScript/数据类型
+type: text/vnd.tiddlywiki
+
+!! 说说 JS 的数据类型
+
+!!! 1、基本数据类型
+
+按值访问，存储在栈内存中
+
+* `number`
+* `string`
+* `boolean`
+* `undefined`
+* `null`
+* `symbol` 常用于对象上添加唯一属性
+* `bigint` 主要用于管理很大或很小的数据（超过 `Number.MAX_SAFE_INTEGER` 或小于 `Number.MIN_SAFE_INTEGER`）
+
+!!! 2、引用/对象数据类型
+
+按引用访问，存储在堆内存中
+
+* `object`
+* `array`
+* `function`

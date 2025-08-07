@@ -1,0 +1,86 @@
+created: 20250805061428607
+modified: 20250805061554394
+tags: 前端面试准备20250805/CSS
+title: 前端面试准备20250805/CSS/CSS 预处理器(Sass/Less/Stylus)
+type: text/vnd.tiddlywiki
+
+!! CSS 预处理器(Sass/Less/Stylus)
+
+!!! 1、概念
+
+CSS 预处理器定义了一种新的语言，主要是通过用一种专门的编程语言，为 CSS 添加一些编程特性，再编译生成 CSS 文件。
+
+它可以帮助我们编写可维护的、与时俱进的代码，也可以减少需要编写的 CSS 数量，对于那些需要大量样式表和样式规则的大型用户界面是非常有帮助的。
+
+CSS 预处理器可以更方便的维护和管理 CSS 代码，让整个网页变得更加灵活可变。
+
+scss和sass其实一样  写法有些区别  sass类似stylus的简写  scss不能简写
+
+CSS 选择器浏览器是''从右往左''依次解析 ，所以不建议嵌套写，要嵌套的时候层次少一点
+
+!!! 2、功能
+
+两种scss的用法   scss和sass   sass类似stylus的简写  scss和less一样
+
+可以使用变量、常量。可以定义一些公共的scss变量（参考vite官网），通过配置在整个项目当中直接使用 
+
+注意.sass和.scss的后缀配置的时候语法上有区别，分号要处理好
+
+```css
+$primary-color: pink;
+
+.title {
+  color: $primary-color;
+}
+```
+
+允许 css 代码嵌套
+
+```css
+.parent {
+  color: red;
+  .child {
+    color: red;
+  }
+}
+```
+
+混入 Mixin（复用样式）
+
+```css
+/* 定义混合 */
+@mixin clearfix {
+  &:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+/* 使用混合 */
+.content{
+  @include clearfix;
+}
+
+定义的混合可以带变量， 类似函数
+@mixin addColor($a, $b) {
+  border-#{$a}: 1px solid $b;
+}
+
+使用的时候可以传递参数
+@include addColor(bottom, green);
+
+```
+
+继承
+
+```css
+.border {
+  border: 1px solid pink;
+}
+.content {
+  @extend .border;
+  font-size: 20px;
+}
+```

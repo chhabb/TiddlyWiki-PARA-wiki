@@ -1,0 +1,54 @@
+created: 20250805062704519
+modified: 20250805062729976
+tags: 前端面试准备20250805/CSS
+title: 前端面试准备20250805/CSS/实现两栏布局（左侧固定 + 右侧自适应布局）
+type: text/vnd.tiddlywiki
+
+!! 实现两栏布局（左侧固定 + 右侧自适应布局）
+
+1、现有以下 DOM 结构
+
+```html
+<div class="container">
+  <div class="left">左侧</div>
+  <div class="right">右侧</div>
+</div>
+```
+
+2、采用 flex 实现
+
+```css
+.container {
+  display: flex;
+  height: 100px;
+}
+.left {
+  width: 200px;
+  height: 100%;
+  background: pink;
+}
+.right {
+  flex: 1;
+  height: 100%;
+  background: deeppink;
+}
+```
+
+3、采用 float 实现
+
+```css
+.container {
+  height: 100px;
+}
+.left {
+  float: left;
+  width: 200px;
+  height: 100%;
+  background: pink;
+}
+.right {
+  margin-left: 200px;
+  height: 100%;
+  background: deeppink;
+}
+```
