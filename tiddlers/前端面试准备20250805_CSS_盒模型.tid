@@ -1,5 +1,5 @@
 created: 20250805061049188
-modified: 20250805061200679
+modified: 20250807185154995
 tags: 前端面试准备20250805/CSS
 title: 前端面试准备20250805/CSS/盒模型
 type: text/vnd.tiddlywiki
@@ -24,3 +24,9 @@ type: text/vnd.tiddlywiki
 
 3、padding-box (浏览器未实现)
 4、margin-box (浏览器未实现)
+
+---
+
+!!! 记忆思路
+* content-box（W3C 标准盒模型）的 width 和 height 仅表示内容区域（content）的尺寸，不包括 padding、border、margin。
+* border-box（IE盒模型）的 width 和 height 表示内容 + padding + border 的总尺寸，即 border 以内的所有区域。

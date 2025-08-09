@@ -1,0 +1,100 @@
+created: 20250808123315316
+modified: 20250808123340758
+tags: 前端面试准备20250805/JavaScript/原型和原型链
+title: 前端面试准备20250805/JavaScript/原型和原型链/特殊原型关系
+type: text/vnd.tiddlywiki
+
+!!! ''特殊原型关系解析''
+
+!!!! ''1. `Function.prototype === Function.__proto__`''
+
+''现象''：
+
+```javascript
+console.log(Function.prototype === Function.__proto__); // ✅ true
+```
+
+''解释''：
+
+* ''`Function.prototype`''：是所有函数的原型对象（包括 `Function` 自身）。
+* ''`Function.__proto__`''：作为函数，`Function` 的隐式原型指向 `Function.prototype`。
+* ''本质''：`Function` 是内置构造函数，它的原型对象就是自身的隐式原型，形成自引用。
+
+''图示''：
+
+    Function（构造函数）
+      │
+      ├── prototype（Function.prototype）
+      │      │
+      │      └── apply/call/bind 等方法
+      │
+      └── __proto__ → Function.prototype（指向自身原型）
+
+''意义''：
+
+* 说明 `Function` 是''唯一一个 `prototype` 和 `__proto__` 相同''的构造函数。
+* 所有函数（包括 `Array`、`Object` 等）的 `__proto__` 都指向 `Function.prototype`。
+
+---
+
+!!!! ''2. `Object.prototype.__proto__ === null`''
+
+''现象''：
+
+```javascript
+console.log(Object.prototype.__proto__ === null); // ✅ true
+```
+
+''解释''：
+
+* ''`Object.prototype`''：是所有对象的顶层原型（包括函数、数组等）。
+* ''`__proto__`''：原型链的终点是 `null`，表示“无更多原型”。
+* ''原型链终点''：`null` 是设计上的终止标志，避免无限循环。
+
+''原型链示例''：
+
+```javascript
+const obj = {};
+obj.__proto__ === Object.prototype; // ✅ true
+Object.prototype.__proto__ === null; // ✅ true
+```
+
+''完整链条''：
+
+    obj → Object.prototype → null
+
+---
+
+!!! ''为什么这样设计？''
+
+# ''`Function` 的自引用''：
+# * 保持一致性：所有函数（包括 `Function` 自身）共享同一组基础方法（如 `call`/`apply`）。
+# * 逻辑闭环：`Function` 作为构造函数，需要有自己的原型，同时它本身也是函数。
+
+# ''原型链终点为 `null`''：
+# * 安全终止：避免属性查找时无限递归（如 `obj.toString()` 最终在 `Object.prototype` 找到）。
+# * 符合逻辑：`Object.prototype` 是“最原始”的原型，不应再有上级。
+
+---
+
+!!! ''关联面试题''
+
+# ''为什么 `Function instanceof Object` 为 `true`？''
+# * 因为 `Function.__proto__.__proto__ === Object.prototype`（通过原型链继承）。
+
+# ''为什么 `Object instanceof Function` 为 `true`？''
+# * 因为 `Object.__proto__ === Function.prototype`（`Object` 是内置构造函数，属于函数）。
+
+---
+
+!!! ''总结''
+
+| 表达式                          | 结果   | 说明                                |
+|---------------------------------|--------|-----------------------------------|
+| `Function.prototype === Function.__proto__` | `true` | `Function` 的自引用设计            |
+| `Object.prototype.__proto__`    | `null` | 原型链终点                         |
+
+''核心结论''：
+
+* JavaScript 通过 `Function` 和 `Object` 的原型设计，实现了函数和对象的统一管理。
+* `null` 是原型链的“宇宙尽头”，而 `Function` 是“我生我自己”的存在。 🌌

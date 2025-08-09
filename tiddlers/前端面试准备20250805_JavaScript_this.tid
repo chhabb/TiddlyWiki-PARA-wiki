@@ -1,0 +1,13 @@
+created: 20250808101257423
+modified: 20250808104135410
+tags: 前端面试准备20250805/JavaScript
+title: 前端面试准备20250805/JavaScript/this
+type: text/vnd.tiddlywiki
+
+!! this
+
+* js 的作用域是静态的，但函数的调用是动态的，同一个函数可以在不同环境中运行。函数运行时由 JS 引擎自动传入了 this（指针型的变量），代表当前函数的执行环境（函数的调用者）
+* this永远指向其所在函数的调用者，如果没有则指向全局对象window
+* this和函数的调用息息相关，函数的调用方式不同，this的指向不同
+* 函数默认调用 this指向window
+* 函数上下文对象调用 this指向上下文对象
