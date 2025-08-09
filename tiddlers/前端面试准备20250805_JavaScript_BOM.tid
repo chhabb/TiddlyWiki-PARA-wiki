@@ -1,0 +1,18 @@
+created: 20250809062758784
+modified: 20250809062834252
+tags: 前端面试准备20250805/JavaScript
+title: 前端面试准备20250805/JavaScript/BOM
+type: text/vnd.tiddlywiki
+
+!! BOM
+
+浏览器对象模型（Browser Object Model），用于支持访问和操作浏览器的窗 口。
+
+BOM 的核心对象是 window，它表示浏览器的一个实例。
+
+使用 window对象可以访问客户端其他对象，这种关系构成浏览器对象模型。
+
+* navigator：包含客户端有关浏览器的信息
+* history：包含浏览器窗口访问过的URL信息
+* location：包含当前网页文档的URL信息
+* document：包含整个HTML文档，可以用来访问文档内容及其所有页面元素
