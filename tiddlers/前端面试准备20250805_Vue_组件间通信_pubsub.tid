@@ -1,0 +1,24 @@
+created: 20250810104032804
+modified: 20250810104245512
+tags: 前端面试准备20250805/Vue/组件间通信
+title: 前端面试准备20250805/Vue/组件间通信/pubsub
+type: text/vnd.tiddlywiki
+
+!! 消息的订阅和发布（pubsub）
+
+和全局事件总线都是任意组件间通信的方式
+
+Vue2和Vue3中均可用，但Vue2一般不用，因为有全局事件总线，使用它会增大包的体积，最终效率低
+
+它不需要去Vue.use，因为它是一个第三方包，第三方包都是不需要use的
+
+直接引入就可以使用，它里面有两个方法 publish和subscribe
+
+在接收数据的组件当中需要调用subscribe 方法去订阅：`PubSub.subscribe('消息名/频道名',callback)`
+
+在发送数据的组件当中需要调用publish去发布：`PubSub.publish('消息名/频道名'，数据参数)`
+
+注意：
+
+* 订阅和发布的时候消息名字 要一致
+* `callback(msg,data)`   `msg` 代表消息名，就算不用也要占位，第二个参数才是你传递的数据

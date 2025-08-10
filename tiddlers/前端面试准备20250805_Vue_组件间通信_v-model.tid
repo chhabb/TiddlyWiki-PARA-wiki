@@ -1,0 +1,25 @@
+created: 20250810104934243
+modified: 20250810153000110
+tags: 前端面试准备20250805/Vue/组件间通信
+title: 前端面试准备20250805/Vue/组件间通信/v-model
+type: text/vnd.tiddlywiki
+
+!! v-model
+
+''`v-model` 使用在 html 标签上，一般都是表单类元素''
+
+v-model用在html标签身上代表双向数据绑定，等价于	`:value="msg"` 和 `@input="msg = $event.target.value"` 的组合，`value` 代表单向数据绑定，`input事件` 是原生的 dom 事件
+
+我们可以理解 `v-model` 就是 props 传递`value` 和 `input事件` 组合的简写
+
+''v-model使用再组件标签身上''
+
+v-model用在组件标签身上实现的父子组件双向数据同步
+
+也是等价于:value="msg"和@input="msg = $event"的组合
+
+但是此时:value和@input与用在html标签身上是不一样的，此时value代表props传参，input事件是自定义事件
+
+注意：v-model在实现双向数据同步的时候只能同步一个数据，所以才有了一会要讲的.sync
+
+v-model组件通信方式其实本质是props和自定义事件的结合

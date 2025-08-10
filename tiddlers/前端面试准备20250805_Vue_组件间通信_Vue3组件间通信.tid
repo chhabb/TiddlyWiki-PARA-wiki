@@ -1,0 +1,71 @@
+created: 20250810111155716
+modified: 20250810153610682
+tags: 前端面试准备20250805/Vue/组件间通信
+title: 前端面试准备20250805/Vue/组件间通信/Vue3组件间通信
+type: text/vnd.tiddlywiki
+
+我给你按你列出的顺序，把 Vue2 → Vue3 在组件间通信上的变化系统梳理一下，涵盖哪些被删除、废弃、替代、语法变化或合并的情况，并把相互关联的地方串起来，方便你整体理解。
+
+⸻
+
+VueX、Pinia Vuex 在 Vue3 中依然可用（Vuex 4 适配 Vue3，API 基本一致），但官方推荐用 Pinia 取代 Vuex。Pinia 成为官方状态管理库，支持组合式 API，更轻量，去掉了 mutation 的概念，直接用 actions 修改 state，并且支持 TypeScript 类型推导更好。Vuex 没有被硬性删除，但新项目基本不再建议用它。
+
+⸻
+
+$parent、$children 和 $refs 这些实例属性在 Vue3 中依然存在，但推荐度下降，属于不鼓励使用的 API。 $parent / $children 在 Vue3 没有被完全删除，但因组合式 API 及依赖注入（provide/inject）的出现，这种直接访问组件实例的方式被标记为脆弱实现，官方文档更倾向于用 props/emit 或 provide/inject 替代。 $refs 在 Vue3 保留，但在模板引用 DOM 或子组件实例时，Vue3 强调它的类型会是 reactive ref 对象（需要访问 .value 才能得到实际值，在 TS 下尤为明显），而 Vue2 中是直接得到引用值。
+
+⸻
+
+$attrs 和 $listeners Vue3 把 $listeners 删除了，不再单独存在。 Vue2 中 $attrs 只包含非 prop 的 attribute，$listeners 包含监听的事件。Vue3 把这两者合并到 $attrs 中，事件监听也作为 attribute 存储（onXxx 形式），从而统一了传递机制。 这意味着在 Vue3 里透传事件需要手动在 v-bind=”$attrs” 时考虑事件监听也会被传下去。
+
+⸻
+
+v-model Vue2 中 v-model 只能绑定一个 prop（默认 prop 名是 value）并通过 input 事件更新。 Vue3 改成可以绑定多个 v-model（prop 名和事件名可以自定义，如 v-model:title / update:title）。默认 prop 名从 value 改成 modelValue，对应事件名是 update:modelValue。语法更灵活，但旧的 value + input 事件的写法不再是默认模式（仍可手动实现）。
+
+⸻
+
+.sync Vue2 中 .sync 是语法糖，会自动生成 prop 和 update:propName 事件。 Vue3 删除了 .sync，统一用 v-model 的多绑定机制取代，例如 v-model:foo 等价于 Vue2 中的 foo.sync。
+
+⸻
+
+插槽 Vue2 中有普通插槽、具名插槽、作用域插槽（slot-scope 语法）。 Vue3 合并了普通插槽和作用域插槽概念，slot-scope 被废弃，统一用 v-slot 语法；并且 v-slot 只能用在  `<template>` 上（除非是默认插槽的缩写形式）。此外，插槽现在是函数形式，性能更高。
+
+⸻
+
+pubsub Vue 本身不内置 pubsub（发布订阅），Vue2/3 都需要自行实现（比如 mitt、tiny-emitter），变化不大。Vue3 因为 tree-shaking 和组合式 API，通常会用独立的事件总线库配合 provide/inject，而不是全局变量。
+
+⸻
+
+全局事件总线 Vue2 常用在 Vue.prototype 上挂载一个事件中心（如 new Vue()），子组件通过 this.$bus.$emit / $on 通信。 Vue3 删除了实例化 Vue 构造函数的能力（不能 new Vue），所以这种写法不再可行。取而代之的做法是单独导出一个 mitt 实例，或用 Pinia/全局 store 代替。
+
+⸻
+
+自定义事件 Vue2 中组件可以用 $emit 自定义事件，父组件用 @事件名 监听。 Vue3 中 $emit 依然存在，但 $on、$off、$once 从实例 API 中被删除（不能在组件实例上注册监听器），事件监听只能通过模板绑定。自定义事件的类型建议在 emits 选项中声明（TS 下可以获得类型推导）。
+
+⸻
+
+props props 基本机制未变，但 Vue3 推荐在 defineProps（）或 props 选项中显式声明类型；不声明的 props 不会自动出现在 $attrs 中（Vue2 会）。Vue3 中 props 是 shallow reactive，直接替换整个对象类型的 prop 会保留响应性，但修改其子属性可能需要注意解构失去响应的问题。
+
+⸻
+
+如果用一句话总结变化趋势：Vue3 整体弱化了直接访问实例属性和隐式通信的方式（$parent、$children、$listeners、全局事件总线、.sync），强化了显式的 props/emit、v-model 多绑定、插槽函数化，以及依赖注入和外部状态管理（Pinia）的使用，把 API 变得更统一、更易类型推导。
+
+⸻
+
+如果你需要，我可以给你画一张对比表，把这些通信方式在 Vue2 和 Vue3 的可用性、变化点、替代方案对应地列出来，这样记忆会更快。你要我直接画吗？
+
+| 通信方式 | Vue2 状态 | Vue3 状态 | 变化点/删除内容 | 替代/推荐用法 |
+| --- | --- | --- | --- | --- |
+| Vuex | 官方状态管理库 | 仍可用（Vuex4 适配 Vue3） | 无重大 API 变动 | 推荐用 Pinia 替代 |
+| Pinia | 不存在官方版本 | 成为官方推荐状态管理 | 去掉 mutation，TS 友好 | 组合式 API + actions |
+| $parent / $children | 存在，不推荐 | 存在，更不推荐 | 依赖注入等替代，脆弱实现 | props/emit 或 provide/inject |
+| $refs | 直接得到引用值 | 返回 ref 对象（需 `.value`） | TS 下类型不同 | 同原用法，注意 `.value` |
+| $attrs / $listeners | 分开存在 | 合并到 $attrs | 事件监听以 `onXxx` 存在 | `v-bind="$attrs"` 注意事件透传 |
+| v-model | 单 prop（value + input） | 多 prop，自定义事件名 | 默认 prop 改为 `modelValue` | `v-model:propName` |
+| .sync | 支持语法糖 | 删除 | 用 `v-model:propName` 替代 | — |
+| 插槽 | 普通/具名/作用域（`slot-scope`） | `v-slot` 统一 | `slot-scope` 废弃 | `v-slot` 统一语法 |
+| provide/inject | 存在（简单依赖注入） | 功能增强，组合式 API 可用 | 可与 reactive/ref 结合 | 推荐代替 $parent/$children |
+| pubsub | 无内置，手动实现 | 无内置，手动实现 | 无变化 | mitt / tiny-emitter |
+| 全局事件总线 | `Vue.prototype.$bus` 常用 | 不能 `new Vue` 实现 | 全局构造器删除 | mitt 实例 / Pinia |
+| 自定义事件 | `$emit` + `$on/$off/$once` | `$emit` 保留，`$on` 等删除 | 监听只能模板绑定 | `emits` 选项 + TS 类型推导 |
+| props | 自动出现在 $attrs | 未声明的不出现在 $attrs | shallow reactive 特性变化 | `defineProps` / 显式声明类型 |

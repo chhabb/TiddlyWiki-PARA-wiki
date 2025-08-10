@@ -1,0 +1,39 @@
+created: 20250810110212130
+modified: 20250810110230515
+tags: 前端面试准备20250805/Vue/组件间通信
+title: 前端面试准备20250805/Vue/组件间通信/pinia
+type: text/vnd.tiddlywiki
+
+# pinia
+
+```js
+
+// 1.使用createPinia创建根store（pinia实例）
+// 2.使用app.use声明使用
+
+/ 三个核心概念：store、actions、getters
+// defineStore()用来定义一个store，参数一是一个字符串id，这个id会显示在devtools中作为这个store的标识，参数二是配置对象
+// defineStore()返回一个用于创建store实例的函数，函数命名最好使用 store 的名字，同时以 `use` 开头且以 `Store` 结尾，函数调用前store实例不会被创建
+// store实例是一个proxy对象，使用时不需要.value
+// 可以使用store实例去访问核心概念中定义的任意属性或方法，可以解构出来使用
+// store实例直接解构其中的属性来使用时不是响应式的，使用 storeToRefs()可以保持解构出来的属性的响应式
+
+// state是一个函数，返回初始状态数据。为了完整类型推理，推荐使用箭头函数
+// 兼容TS：
+// 1.断言返回的初始状态数据
+// 2.写一个接口定义state的返回值类型
+
+// 可以直接通过生成的store实例访问store中的属性，store.xxx，进行读写操作
+// 调用store.$reset()可以将store重置为初始值
+// 自动模块化，不需要显式定义，模块名是传入defineStore()的id字符串名
+  // 以前使用的每个模块现在都是一个 store
+  // 每个 store 都需要一个 id，类似于 Vuex 中的命名空间。
+
+// getters 用来简化对store数据的操作，官方推荐使用箭头函数，它接收state作为第一个默认参数
+// getters中可以通过 this 访问到整个 store 实例，这样就能获取到store甚至是其他getters的数据，如果是常规函数，(在 TypeScript 中)必须定义返回类型。
+
+// action 也可通过 this 访问整个 store 实例
+// action可以是异步的，可以使用await，甚至调用其他actions
+// action可以像普通方法一样被调用
+
+```

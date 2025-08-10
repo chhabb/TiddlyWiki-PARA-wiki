@@ -1,0 +1,32 @@
+created: 20250810105748969
+modified: 20250810153956843
+tags: 前端面试准备20250805/Vue/组件间通信
+title: 前端面试准备20250805/Vue/组件间通信/$attrs和$listeners
+type: text/vnd.tiddlywiki
+
+!! $attrs和$listeners
+
+this.$attrs 是一个对象，这个对象里面是父组件传递的所有属性和属性值
+
+除了props接收过的及样式相关的属性（比如 class 和 style）
+
+this.$listener是一个对象，里面是所有的事件监听相关属性和属性值
+
+这两个东西通常用于组件的二次封装
+
+v-bind可以一次性把一个对象当中的属性和属性值展开进行绑定或者传递，搭配 $attrs
+
+v-on可以一次性把一个对象当中的事件监听进行展开绑定，搭配 $listeners
+
+```js
+<template>
+  <!-- 把所有父组件传来的未声明 props 的属性和事件，自动传给 input -->
+  <input v-bind="$attrs" v-on="$listeners" />
+</template>
+
+<script>
+export default {
+  inheritAttrs: false, // 禁止自动把多余的属性自动绑定到根元素
+}
+</script>
+```

@@ -1,0 +1,19 @@
+created: 20250810105902206
+modified: 20250810105931894
+tags: 前端面试准备20250805/Vue/组件间通信
+title: 前端面试准备20250805/Vue/组件间通信/$parent、$children和$refs
+type: text/vnd.tiddlywiki
+
+!! $parent、$children和$refs
+
+this.$parent 可以拿到父组件对象，进而可以操作父组件当中数据和方法
+
+this.$children可以拿到所有的子组件对象组成的数组
+
+注意：this.$parent 只能拿到一个父组件对象，如果这个组件有多个父组件对象，只能拿到一个，无法拿到你指定的，因此官方推荐不用，this.$children拿到的是子组件对象的数组，但是顺序不确定，因此也不推荐使用只有对所有的子组件对象同样的操作，我们才会使用。
+
+$refs它可以让我们拿到指定的子组件对象进行父向子通信，只要拿到指定的子组件对象，就可以操作子组件的数据和方法
+
+ref用在html标签身上，通过this.$refs.xxx可以获取到真实dom元素
+
+ref用在组件标签身上，通过this.$refs.xxx可以获取到组件对象

@@ -1,0 +1,86 @@
+created: 20250810104613214
+modified: 20250810104906686
+tags: 前端面试准备20250805/Vue/组件间通信
+title: 前端面试准备20250805/Vue/组件间通信/VueX
+type: text/vnd.tiddlywiki
+
+Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式，它采用集中式存储管理应用的所有组件的状态数据，也可以认为是一种适用于任意组件间的组件通信方式
+
+Vuex使用场景：
+
+* 项目比较大
+* Vuex是独立于Vue的，项目比较小时没必要使用，会导致打包体积变大
+* 有共享数据
+
+vuex的核心概念一共是6个： `state`、`mutations`、`actions`、`getters`、`modules`、`plugins`
+
+* state是存储状态数据
+* mutations  是直接修改state状态数据
+** mutations当中能不能写异步？ 面试题
+** 可以写异步，但是不建议，因为浏览器安装vue-devtools工具，在监视数据变化的时候就是监视
+** mutations函数调用，如果写了异步，那么监视的时候就监视不到了，数据的改变，就没有根据了
+* actions  当中一般都是异步请求的逻辑（可以不写异步，比如不发请求），两个作用：
+** 和组件进行连接  组件当中通过dispatch
+** 提交mutations，让mutations去修改数据
+* getters  简化state的数据操作，和组件当中computed的get一致
+
+```js
+getters: {
+	doneTodos: state => {
+		return state.todos.filter(todo => todo.done)
+	}
+}
+
+computed: {
+	...mapGetters(['doneTodos'])
+},
+```
+
+* modules（namespaced） 模块化，作用是可以让状态数据管理更加清晰方便，而且数据不会发生覆盖
+
+没有使用模块化的时候总的state
+
+```
+{a:100,b:200}
+```
+使用模块化的时候总的state  
+
+```
+`{home:{a:100},user:{b:200}}`
+```
+
+namespaced决定在获取数据和调用函数的时候有改变
+
+没有用namespaced但是用到模块化
+
+```
+mapState({
+
+a:state => state.home.a
+
+b:state => state.user.b
+
+})
+
+dispatch('fn')
+```
+
+使用了命名空间
+
+```
+mapState('home',['a'])
+
+mapState('user',['b'])
+
+dispatch('user/fn')
+```
+
+* 模块化只针对state，不针对actions、mutaions，还存在同名覆盖问题，mapState只能写对象
+* 命名空间：针对state、actions、mutaions，mapState可以写对象，也可以写函数
+
+* plugins:插件，可以给vuex配置相关的插件  vuex-persister让vuex数据持久化，不借助localStorage
+
+Vuex数据持久化方案：
+
+* vuex-persister插件
+* localStorage + 路由守卫

@@ -1,0 +1,138 @@
+created: 20250810102241209
+modified: 20250810144741113
+tags: 前端面试准备20250805/Vue/组件间通信
+title: 前端面试准备20250805/Vue/组件间通信/自定义事件
+type: text/vnd.tiddlywiki
+
+Vue 的事件分两类，一类原生 DOM 事件，一类自定义事件。
+
+事件三要素：事件源、事件类型、回调函数，事件源就是添加事件的元素/组件。
+
+!!! 原生 DOM 事件
+
+事件类型：有限个
+
+回调函数：回头再调的函数（当条件达到的时候，再去调用），三大特点：1、自己定义2、自己没调、3最终执行
+
+回调函数调用是谁调的？浏览器（系统）内核会驱动事件源，去调用回调函数。简称是系统调的。
+
+回调函数调用的时候传递的默认参数是什么？ 形参是 $event，实参是 event 事件对象
+
+浏览器在这一次触发事件的时候，会把事件相关的所有信息，封装为一个对象，在调用回调的时候，传递给回调的第一个形参，称作叫事件对象
+
+补充：$event 的作用是在模板表达式中占位引用当前事件上下文传入的第一个值，原生 DOM 事件时它是事件对象，自定义事件时它是 $emit 的第一个实参。
+
+!!! 自定义事件
+
+事件类型：无数个
+
+回调函数：自己定义的
+
+回调函数调用是谁调的？自己通过 `this.$emit('xxx',data)` 和 emit('xxx',data)调用的  (defineEmits 的返回值是一个函数)
+
+回调函数调用的时候传递的默认参数是什么？形参是 $event，实参自己传递，传递的是什么就是什么，不传递就是 undefined
+
+!!! 原生dom事件在html标签和组件标签身上使用的区别
+
+在html标签身上原生dom事件就是原生dom事件，该怎么玩就怎么玩
+
+在组件标签身上即使是原生dom事件的名字，也会变为自定义事件
+
+Vue2 中组件标签上的事件默认是自定义事件，要监听原生事件需加 .native。Vue3 中组件标签上的事件，如果子组件声明了该事件名（defineEmits）就是自定义事件，否则会被当作原生 DOM 事件绑定到根元素。
+
+如果想让这个事件还是原生dom事件，需要用到一个新的事件描述符 `.native`
+
+.native的本质，将自定义还原为原生dom事件并添加给子组件的根标签，形成事件委派
+
+!!! 自定义事件在html标签和组件标签身上使用的区别
+
+如果是一个自定义事件用在html标签身上，无意义，在外部是没办法触发的，this是不对的
+
+如果是一个自定义事件用在组件标签身上，该怎么玩怎么玩。内部去触发
+
+!!! 自定义事件的用法
+
+适用场景：子向父
+
+在父组件当中 我们可以看到子组件标签（本质就是子组件对象），因此我们可以给这个标签绑定事件，事件回调就留在父组件
+
+在子组件当中，我们可以触发自己身上绑定的事件，本质还是在调用回调函数，通过函数传参把子组件的数据传递给父组件
+
+!!! 写法
+
+Vue2
+
+```
+<!-- ParentComponent.vue -->
+<template>
+  <child-component @form-submitted="handleSubmit" />
+</template>
+
+<script>
+export default {
+  methods: {
+    handleSubmit(formData) {
+      console.log('收到表单数据:', formData);
+    }
+  }
+}
+</script>
+```
+
+```
+this.$emit('form-submitted', {
+		username: this.username,
+		password: this.password
+});
+```
+
+Vue3
+
+```
+<!-- ParentComponent.vue -->
+<template>
+  <child-component 
+    @search="handleSearch"
+    @click="handleClick"
+  />
+</template>
+
+<script setup>
+const handleSearch = (query) => {
+  console.log('搜索:', query);
+};
+
+const handleClick = () => {
+  console.log('点击事件');
+};
+</script>
+```
+
+```
+<!-- ChildComponent.vue -->
+<script setup>
+const emit = defineEmits<{
+  (e: 'search', query: string): void;
+}>();
+
+const performSearch = () => {
+  emit('search', searchQuery.value);
+};
+</script>
+```
+
+补充：
+
+1、原生DOM事件有事件对象，自定义事件默认无事件对象
+
+2、原生DOM事件传递一个参数时，模板中不用显示指定$event，回调的第一个默认参数就是事件对象
+
+3、原生DOM事件传递多个参数时，模板中需要显示指定$event，而且顺序无所谓，传递的$event就是事件对象
+
+4、原生DOM事件传递多个参数时，模板中如果不显示指定$event，回调就无法获取事件对象
+
+5、自定义事件传递一个参数时，回调的第一个默认参数就是传递的数据，即使模板中显示指定$event，这个$event也是传递的这一个数据
+
+6、自定义事件传递多个参数时，如果模板中显示指定$event，这个$event就是传递的第一个数据，其他数据会丢失，除非在模板中也用形参接收了，直接在回调中是获取不到的
+
+7、自定义事件传递多个参数时，如果模板中不显示指定$event，则可以使用形参逐个接收传递过来的数据

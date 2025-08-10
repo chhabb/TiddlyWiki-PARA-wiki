@@ -1,0 +1,404 @@
+created: 20250810102430582
+modified: 20250810110722887
+tags: 前端面试准备20250805/Vue/组件间通信
+title: 前端面试准备20250805/Vue/组件间通信/VueRouter
+type: text/vnd.tiddlywiki
+
+! VueRouter
+
+!!! 是什么
+
+是vue官方的一个插件
+专门用来实现一个SPA应用
+基于vue的项目基本都会用到此库
+vuex  vue-router  这两个插件应用比较广泛
+
+!!! 单页Web应用（single page web application，SPA）
+
+整个应用只有一个完整的页面（这个完整的页面，由多个组件组成）
+
+点击页面中的链接不会刷新页面, 本身也不会向服务器发普通请求
+
+当点击路由链接时, 只会做页面的局部更新（组件切换）
+
+切换过来之后，数据都需要通过ajax请求获取, 并在前端异步展现
+
+!!! 路由
+
+是一个key:value的映射关系
+
+前台路由组成：路径 和 要显示的组件
+
+```javascript
+{
+	path:'/home',
+	component:Home
+}
+```
+
+当点击链接的时候，路径会发生变化，但是不会向服务器发普通请求，而是去显示对应的组件
+
+后台路由组成   路径 和 匹配的函数
+
+```javascript
+app.get('/users/info',function(){})
+```
+
+简单理解前台路由：路由可以让我们实现组件的切换和跳转：
+点击链接，     	修改路径
+匹配路由，     	按照路径去匹配路由
+显示对应的组件   匹配成功的路由，当中对应的组件会被显示
+
+!!! 路由组件和非路由组件
+
+组件：             一个组件包含 html css js img的结合体     定义   注册   使用
+
+路由组件：  	  定义   注册（不是在另外一个组件当中注册，是在路由当中注册的）   使用
+`<router-link></router-link>`用户点击的链接\
+`<router-view></router-view>`组件切换的地方
+
+非路由组件： 	  定义   注册（一定是在另外一个组件当中去注册的）   使用 	 `<Header />`
+
+!!! 路由组件和非路由组件的最大区别
+
+定义的位置有区别  非路由组件在components  路由组件在pages/views
+
+生命周期有区别：
+
+* 非路由组件，页面打开生命周期就开始，除非这个非路由组件是在路由组件里面使用
+* 路由组件，点击路由链接，切换到本组件，生命周期才开始，一旦切换走，立马销毁
+
+注册的时候有区别
+
+* 非路由组件和路由组件都是三大步：定义  注册   使用
+* 定义的时候这两个是一样的，只是位置不同罢了
+* 注册的时候
+** 非路由组件是在使用的组件当中配置项components内部注册
+** 路由组件是要在路由器当中的路由配置项里面进行注册  ？？？？？？？？？？？
+* 使用的时候
+** 非路由组件是直接在使用的组件里面写标签
+** 路由组件需要用到插件内部的 router-view内置组件进行使用
+
+!!! 怎么做
+
+拆分页面定义组件，路由组件和非路由组件
+
+路由器注册路由组件（注册组件）：
+
+路由的使用
+
+1、安装
+2、引入并声明使用
+3、实例化一个路由器对象并暴露
+4、将实例化的路由器对象在new Vue的配置对象当中使用
+5、new路由器时候配置对象当中的代码
+
+使用路由实现组件切换
+
+router-link    路由连接，就是点哪，可以让你的路径变为你指定的 to
+
+router-view    路由组件显示区域，就是组件需要在哪显示
+
+!!! 路由传参
+
+第一步：把参数写在路径当中   （三种：字符串、模板字符串、对象写法）
+第二步：点击路由链接的时候，路径会去路由器当中的路由当中匹配，匹配同时会把参数解析添加到路由对象当中
+第三步：匹配成功，显示对应的路由组件同时把当前的路由对象传递到路由组件当中，我们就可以从路由对象当中获取参数（props）
+
+传参的参数
+
+参数：
+
+* params参数	是属于路径的一部分       /message/10	要在路由对象中使用 `:变量名` 进行占位
+* query参数	路径后使用?去拼接起来的    /xxx/  ? aa = bb && xx = yy
+
+命名路由
+
+路由链接组件中给路由传参可以写成对象形式，前提需要给路由起名字name，也叫命名路由
+
+使用props简化路由传参给子组件操作（路由当中传参的三种操作）
+
+* 布尔值
+** 路由当中需要配置 props:true,只能接收params参数，它会把路由当中接收的参数，置为子组件的属性
+* 对象
+** 很少用，只能给子组件传递默认静态值
+* 函数
+** 用的比较多，比较灵活，可以把params和query的参数都映射为子组件的属性
+
+```javascript
+props(route){ //route就是当前我这个路由对象
+   //把路由对象当中的参数，不管什么参数
+   //全部拿到作为子组件的属性去使用
+	return {        
+		msgId:route.params.msgId,
+		msgContent:route.query.msgContent
+	}
+}
+```
+
+!!! 编程式导航和声明式导航
+
+前面我们都是借助router-link 自动生成的跳转方式去跳转的，叫做声明式导航
+编程式导航：说白了就是让我们自己手写代码，去跳转
+
+!!!! 声明式和编程式的区别
+
+声明式简洁，不需要我们自己手写逻辑，直接就能跳转，我们不能加入自己的逻辑
+编程式导航，需要自己手写逻辑，才能跳转，我们可以加入自己的逻辑
+
+某些特定的场合下：编程式导航比声明式导航效率要高
+
+```javascript
+	1)	this.$router.push(path): 相当于点击路由链接(可以返回到当前路由界面)
+	2)	this.$router.replace(path): 用新路由替换当前路由(不可以返回到当前路由界面)
+	3)	this.$router.back(): 请求(返回)上一个记录路由
+	4)	this.$router.go(-1): 请求(返回)上一个记录路由
+	5)	this.$router.go(1):  请求下一个记录路由
+
+	$router.push()和$router.replace()的区别，返回有区别。
+	$router.push()是往历史记录里面追加
+	$router.replace()每一次都是覆盖添加
+```
+
+!!! 缓存路由组件
+
+使用的是vue的一个组件，参考vue的官方文档
+使用这个东西可以保证我们在切换组件的时候，原来显示的组件不被销毁
+
+```html
+<keep-alive include="Home">   Home是对应的组件对象的名字，不是路由的名字
+	<router-view></router-view>
+</keep-alive>
+```
+
+!!! 路由模式
+
+!!!! hash模式
+
+* 路径中带#: http://localhost:8080/#/home/news
+* 发请求的路径: http://localhost:8080/  项目根路径
+* 响应: 返回的总是index页面  ==> path部分(/home/news)被解析为前台路由路径	
+
+!!!! history模式
+
+* 路径中不带#: http://localhost:8080/home/news
+* 发请求的路径: http://localhost:8080/home/news
+* 响应: 404错误
+
+希望: 如果没有对应的资源, 返回index页面, path部分(/home/news)被解析为前台路由路径
+
+解决: 添加配置
+
+```
+    devServer添加: historyApiFallback: true, // 任意的 404 响应都被替代为 index.html
+    output添加: publicPath: '/', 		
+    // 引入文件时路径必须以/开头，不能写成相对路径，否则找不到
+```
+
+---
+
+!!! 使用
+
+src下新建一个router文件夹
+
+新建一个index.js文件专门用来配置路由信息（上面的4大步）
+
+```js
+//1.安装路由器插件
+npm i vue-router
+//2.引入并声明使用
+import VueRouter from 'vue-router'
+import Vue from 'vue'
+Vue.use(VueRouter)
+
+import Home from '@/pages/Home'
+//3.向外暴露一个路由器对象
+export default new VueRouter({
+    //这个配置对象是用来配置路由的，完成4大步之后，在这里注册你的路由组件
+    routes = [//代表所有的路由
+    //数组里放每一个路由，每一个路由都是一个对象，由key（路径）和value（组件）组成
+   		{
+    		path:'/home',
+    		component:Home//这里其实就是注册路由组件
+		}
+    ]
+})
+//4.在vue的配置项当中（在main.js里）注入路由器
+import router from './router'
+new Vue({
+    router,//注入router，每个组件当中都可以通过this.$router拿来路由器对象，通过this.$route拿到当前匹配的路由对象
+    render:h=>h(App),
+}).$mount('#app')
+//路由器是用来管理路由的，一个路由器里可以有多个路由，而一个路由只能归属于一个路由器
+```
+
+路由组件
+
+```js
+//1.定义
+//定义在pages文件夹里
+//2.注册
+//在路由器的配置文件里引入，在路由器的配置对象里注册为一个路由
+//3.使用
+//想在哪个组件中显示就在哪个组件里去使用
+<!--这是VueRouter提供的组件，一旦路由组件注册成功，就可以使用这个组件（标签）来使用路由组件。它是一个用于路由组件进行切换的组件，可以理解为一个供路由组件切换展示的平台，一旦路由匹配成功，对应的路由组件就会在这里进行展示-->
+<router-view></router-view>
+```
+
+路由导航
+
+路由组件注册好之后，需要通过导航去进行匹配，导航有声明式导航和编程式导航两种。
+
+声明式导航
+
+```html
+<!--这个标签也是一个由VueRouter提供的组件标签，可以把普通的跳转链接变成路由链接。路由链接点击只会改变路径，不会发送普通请求进行跳转，而a标签点击会默认会进行跳转并刷新页面-->
+<!--to属性用来设置跳转的路由路径，它会和路由器中配置的所有路由的路径进行匹配，匹配成功就会将对应的路由组件在router-view中进行展示-->
+<!--这个标签上也可以写class类-->
+<router-link to="/home">Home</router-link>
+```
+
+编程式导航
+
+就是几个方法
+
+!!!! 二级路由（一级路由的子路由）
+
+在对应的路由（不是路由器）的配置对象里有一个children配置项，专门用来为特定路由配置子路由
+
+```js
+import Home from '@/Pages/Home' //引入一级路由组件
+import Message from '@/pages/Message' //引入二级路由组件
+
+{
+	path:'/home',
+	component:Home,
+	children:[//children是一个数组，数组中包含所有的子路由，其中每一个子路由都是一个对象，和一级路由配置项是一样的
+        {
+            //path:'/home/message',//这里的路径有两种写法，第一种是全写，需要写出完整的路径
+            path:'message',//第二种是简写。因为“/”代表根路径，因此子路由中的路径不要再写，这样它的意思就是先去找根路径下的home，然后在home里再去找message，即/home/message
+            component:Message
+        }
+    ]
+}
+
+router-link的写法：to的路径不能简写，也没有简写，如果简写会导致路径跳转出问题
+<router-link to="/home/message">Message</router-link>
+```
+
+!!!! 路由重定向的配置
+
+```js
+{
+    path:'/home',
+    component:Home,
+    children:[
+        {
+            //path:'/home',//全写
+            path:'',//简写：意思是跳转到/home时重定向到message页面（避免空白页面的产生）
+            //redirect:'/home/message'//全写
+            redirect:'message'//简写
+        }
+    ]
+}
+```
+
+!!!! 路由传参
+
+路由组件之间只能使用路由传参传输数据，因为路由组件的声明周期和普通组件不同，路由组件只会在切换过去的时候出现
+
+注：params参数传递的时候需要占位
+
+```js
+//传递：回调里用编程式导航或者在router-link组件标签的to属性里去写
+function(){
+    //this.$router.push('/home/' + this.username + '?username1=' + this.username.toUpperCase())//字符串写法
+    //this.$router.push(`/home/${this.username}?username1=${this.username.toUpperCase())}`//模板字符串写法
+    this.$router.push({
+        name:'search',//这个name代表路由对象，需要命名路由来进行匹配
+        params:{
+            username:this.username
+        },
+        query:{
+            username1:this.username.toUpperCase()
+        }
+    })//对象写法：需要命名路由
+}
+//传递params参数时进行占位
+{
+    path:'/home/:username',//这个/不能少
+    component:Home,
+    name:'home'//命名路由
+}
+//在对应的路由组件中获取通过路由传递过来的参数
+this.$route.params.username
+this.$route.query.username1//模板中this可以省略
+```
+
+!!!! props简化路由传参
+
+```js
+//布尔值
+//只能映射params参数
+
+//对象
+//可以添加自己额外定义的数据
+
+//函数
+//基本上只用这一种写法
+
+//路由对象中
+{
+    path:'/home',
+    components:Home,
+    name:'home',//命名路由
+    props(route){//形参route代表当前匹配成功的路由对象
+        return {//返回一个对象，这个对象里自己手动去映射自己想要的数据
+            username:route.params.username,
+            username1:route.query.username1
+        }
+    }
+}
+
+//接收
+//在路由跳转的当前的路由组件当中
+new Vue({
+    props:['username','username1']
+})
+//使用
+//在模板中就可以直接写username和username1了（省略了this）
+```
+
+!!!! 指定params参数可传可不传
+
+```js
+//路由对象中
+{
+    path:'/home/:username?',//在传递的params参数后面加一个?就行了，代表这个params参数可有可无，如果有，那么接收，如果没有，那就不接收。如果不设置这个，而路由传递了一个undefined或者null，就会导致导航路径出问题。这里其实是借鉴了正则的思想。
+    component:Home,
+    name:'home'//命名路由
+}
+```
+
+!!!! name和params配合使用而params传递了一个空串
+
+```js
+//如果params传递了一个空串，会导致导航路径出问题，或一个undefined就可以了。
+//前提是路由对象中指定了params可传可不传，否则还会出问题
+//传递路由参数的时候
+function(){
+    this.$router.push({
+        name:'home',
+        params:{
+            username:this.username || undefined //或一个undefined避免传的是空串就可以了
+        },
+        query:{
+            username1:this.username.toUpperCase()
+        }
+    })
+}
+```
+
+!!! 动态类
+
+路由导航时，当前活跃的路由链接上会多两个动态class类：`router-link-exact-active` 和 `router-link-active` ，可以通过这两个类给当前活跃的路由链接添加我们自己需要的样式
